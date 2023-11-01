@@ -1,24 +1,33 @@
 {
-  "name": "readblue",
+  "name": "anylater",
   "private": true,
   "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build"
+    "build": "tsc && vite build",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" --cache",
+    "lint:fix": "eslint --fix \"src/**/*.{ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc --cache"
   },
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "1.0.0-beta.29",
+    "@samrum/vite-plugin-web-extension": "^5.0.0",
+    "@types/chrome": "0.0.242",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.9",
     "@types/webextension-polyfill": "^0.10.0",
+    "@vitejs/plugin-react": "^4.0.4",
     "@vitejs/plugin-react-swc": "^3.2.0",
+    "element-ready": "^6.2.2",
+    "eslint": "^8.52.0",
     "typescript": "^4.9.3",
-    "vite": "^4.1.4",
-    "vite-plugin-web-extension": "^3.0.1",
+    "vite": "^4.3.9",
+    "vite-tsconfig-paths": "^4.2.0",
     "webextension-polyfill": "^0.10.0"
   }
 }
