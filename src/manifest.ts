@@ -26,9 +26,9 @@ export function getManifest() {
 
         content_scripts: [
             {
-                matches: ['twitter.com/*'],
+                matches: ['https://twitter.com/*'],
                 all_frames: true,
-                js: ['src/content-scripts/index.ts'],
+                js: ['src/content-scripts/twitter.ts'],
             },
         ],
     }
