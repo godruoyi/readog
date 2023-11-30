@@ -5,13 +5,11 @@ async function main() {
         // some guys tweet cannot be shareable, find a better way to insert the READ LATER button
         const shareButton = await twitterUtil.findShareElementButton(tweet.element)
 
-        console.log('shareButton', shareButton)
-        console.log('url', tweet.url)
-
         shareButton?.addEventListener('click', () => {
             const readLater = twitterUtil.createReadLaterMenuItem()
 
             readLater.onclick = () => {
+                // todo: show global read later modal
                 console.log('Read later clickedss!', tweet)
             }
 

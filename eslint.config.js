@@ -13,6 +13,7 @@ export default antfu({
     rules: {
         'no-console': 'off',
         'curly': ['error', 'all'],
+        'node/prefer-global/process': 'off',
     },
 
     // TypeScript and Vue are auto-detected, you can also explicitly enable them:

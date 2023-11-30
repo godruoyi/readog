@@ -4,6 +4,8 @@ import webExtension from '@samrum/vite-plugin-web-extension'
 import tsconfigPaths from 'vite-tsconfig-paths'
 import { getManifest } from './src/manifest'
 
+const isDev = process.env.NODE_ENV === 'development'
+
 export default defineConfig({
     plugins: [
         tsconfigPaths(),
@@ -12,4 +14,8 @@ export default defineConfig({
             manifest: getManifest(),
         }),
     ],
+    build: {
+        minify: !isDev,
+        sourcemap: isDev,
+    },
 })

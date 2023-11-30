@@ -31,6 +31,10 @@ export function getManifest() {
                 js: ['src/content-scripts/twitter.ts'],
             },
         ],
+
+        permissions: [
+            'tabs',
+        ],
     }
 
     return manifest

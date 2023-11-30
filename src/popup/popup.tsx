@@ -1,9 +1,22 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import Popup from '../pages/Popup'
+import '../supports/enableDevHMR'
+import './popup.css'
+import { createRoot } from 'react-dom/client'
+import { useEffect, useState } from 'react'
+import { GlobalDialog } from '../components/GlobalDialog'
 
-ReactDOM.createRoot(document.body).render(
-    <React.StrictMode>
-        <Popup />
-    </React.StrictMode>,
-)
+const root = createRoot(document.getElementById('root') as HTMLElement)
+
+function App() {
+    const [currentUrl, setCurrentUrl] = useState<string>('')
+    useEffect(() => {
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            setCurrentUrl(tabs[0].url ?? '')
+        })
+    })
+
+    return (
+        <GlobalDialog link={currentUrl} title="Hello" />
+    )
+}
+
+root.render(<App />)
