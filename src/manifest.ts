@@ -17,7 +17,14 @@ export function getManifest() {
         },
 
         action: {
-            default_popup: 'src/popup/popup.html',
+            default_icon: 'icon/32.png',
+            default_title: 'Save to ReadHub',
+            // default_popup: 'src/popup/popup.html',
+        },
+
+        options_ui: {
+            page: 'src/options/index.html',
+            open_in_tab: true,
         },
 
         background: {
@@ -25,15 +32,22 @@ export function getManifest() {
         },
 
         content_scripts: [
+            // {
+            //     matches: ['https://twitter.com/*'],
+            //     all_frames: true,
+            //     js: ['src/content-scripts/twitter.ts'],
+            // },
             {
-                matches: ['https://twitter.com/*'],
+                matches: ['<all_urls>'],
                 all_frames: true,
-                js: ['src/content-scripts/twitter.ts'],
+                js: ['src/content-scripts/all.ts'],
             },
         ],
 
         permissions: [
             'tabs',
+            'contextMenus',
+            'storage',
         ],
     }
 

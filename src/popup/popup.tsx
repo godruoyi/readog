@@ -1,21 +1,13 @@
 import '../supports/enableDevHMR'
 import './popup.css'
 import { createRoot } from 'react-dom/client'
-import { useEffect, useState } from 'react'
-import { GlobalDialog } from '../components/GlobalDialog'
+import { Reader } from '../components/Reader'
 
 const root = createRoot(document.getElementById('root') as HTMLElement)
 
 function App() {
-    const [currentUrl, setCurrentUrl] = useState<string>('')
-    useEffect(() => {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            setCurrentUrl(tabs[0].url ?? '')
-        })
-    })
-
     return (
-        <GlobalDialog link={currentUrl} title="Hello" />
+        <Reader link="test" title="Hello" />
     )
 }
 
