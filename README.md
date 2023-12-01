@@ -1,12 +1,6 @@
-# ReaderX
+# 🚧 WIP
 
-Should be a nice project name:
-
-- [ ] ReaderX
-- [ ] ReadeHub
-- [ ] ReaderHub
-- [ ] LaterX
-
+I haven't thought of what name to give this project yet.
 
 ## Development
 
