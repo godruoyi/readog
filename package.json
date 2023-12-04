@@ -13,9 +13,12 @@
   "dependencies": {
     "baseui": "^13.0.0",
     "install": "^0.13.0",
+    "jss": "^10.10.0",
+    "jss-preset-default": "^10.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^4.0.11",
+    "react-jss": "^10.10.0",
     "styletron-engine-atomic": "^1.6.2",
     "styletron-react": "^6.1.1"
   },
@@ -27,11 +30,10 @@
     "@types/react-dom": "^18.0.9",
     "@types/webextension-polyfill": "^0.10.0",
     "@vitejs/plugin-react": "^4.0.4",
-    "@vitejs/plugin-react-swc": "^3.2.0",
     "element-ready": "^6.2.2",
     "eslint": "^8.52.0",
     "typescript": "^4.9.3",
-    "vite": "^4.3.9",
+    "vite": "^4.5.0",
     "vite-tsconfig-paths": "^4.2.0",
     "webextension-polyfill": "^0.10.0"
   }

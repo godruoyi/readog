@@ -1,4 +1,5 @@
-import type { Browser } from 'webextension-polyfill'
+import type Browser from 'webextension-polyfill'
+import type { ILink } from '../types'
 
 export function isSystemLink(link: string) {
     return (
@@ -6,6 +7,14 @@ export function isSystemLink(link: string) {
     )
 }
 
-export async function getBrowser(): Promise<Browser> {
-    return (await import('webextension-polyfill')).default
+export function transformBrowserTabToLink(
+    tab: Browser.Tabs.Tab,
+    menuData?: Browser.Menus.OnClickData,
+): ILink {
+    return {
+        url: tab.url || '',
+        title: tab.title,
+        selectionText: menuData?.selectionText,
+        selectionUrl: menuData?.linkUrl,
+    }
 }

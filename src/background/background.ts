@@ -1,6 +1,7 @@
 import browser from 'webextension-polyfill'
+import { transformBrowserTabToLink } from '../supports/browser'
 
-browser.contextMenus?.create(
+browser.contextMenus.create(
     {
         id: 'read-hub',
         type: 'normal',
@@ -16,9 +17,7 @@ browser.action.onClicked.addListener(async (tab, info) => {
         return
     }
 
-    // @todo go to settings page if url not set
-
-    browser.tabs.sendMessage(tab.id, { title: 'hello action', url: 'hello', select_text: 'none' }).then()
+    browser.tabs.sendMessage(tab.id, transformBrowserTabToLink(tab, undefined))
 })
 
 browser.contextMenus?.onClicked.addListener(async (info, tab) => {
@@ -28,7 +27,5 @@ browser.contextMenus?.onClicked.addListener(async (info, tab) => {
         return
     }
 
-    // @todo go to settings page if url not set
-
-    browser.tabs.sendMessage(tab.id, { title: 'hello context', url: 'hello', select_text: 'select text' }).then()
+    browser.tabs.sendMessage(tab.id, transformBrowserTabToLink(tab, info))
 })

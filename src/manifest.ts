@@ -19,7 +19,6 @@ export function getManifest() {
         action: {
             default_icon: 'icon/32.png',
             default_title: 'Save to ReadHub',
-            // default_popup: 'src/popup/popup.html',
         },
 
         options_ui: {
@@ -40,7 +39,7 @@ export function getManifest() {
             {
                 matches: ['<all_urls>'],
                 all_frames: true,
-                js: ['src/content-scripts/all.ts'],
+                js: ['src/content-scripts/index.tsx'],
             },
         ],
 
