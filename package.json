@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "baseui": "^13.0.0",
+    "baseui-sd": "^12.2.4",
     "install": "^0.13.0",
     "jss": "^10.10.0",
     "jss-preset-default": "^10.10.0",
