@@ -58,7 +58,6 @@ async function main() {
 
     browser.runtime.onMessage.addListener((link) => {
         console.info('receive link', link)
-
         showPopup(link)
     })
 }

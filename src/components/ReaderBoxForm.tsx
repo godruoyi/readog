@@ -4,8 +4,6 @@ import React, { useState } from 'react'
 import { Button } from 'baseui/button'
 import { Input, SIZE } from 'baseui/input'
 import { createUseStyles } from 'react-jss'
-import type { Value } from 'baseui/select'
-import { Select } from 'baseui/select'
 
 interface ReaderBoxFormProps {
     link: string
@@ -29,10 +27,10 @@ const useStyles = createUseStyles({
 })
 
 export function ReaderBoxForm(props: ReaderBoxFormProps) {
-    const [value, setValue] = useState(props.link)
+    const [link, setLink] = useState(props.link)
     const [title, setTitle] = useState(props.title)
+    const [selectionText, setSelectionText] = useState(props.selectionText)
     const styles = useStyles()
-    const [chanel, setChannel] = React.useState<Value>([])
 
     return (
         <div className={styles.container}>
@@ -56,9 +54,9 @@ export function ReaderBoxForm(props: ReaderBoxFormProps) {
                     <Input
                         placeholder="Your Link"
                         id="input-id2"
-                        value={value}
+                        value={link}
                         size={SIZE.compact}
-                        onChange={e => setValue(e.target.value)}
+                        onChange={e => setLink(e.target.value)}
                         overrides={{
                             Root: {
                                 style: ({ _$theme }) => ({
@@ -138,8 +136,8 @@ export function ReaderBoxForm(props: ReaderBoxFormProps) {
             <div className={styles.mt10}>
                 <FormControl caption="We recommend you record your think on this monent">
                     <Textarea
-                        value={value}
-                        onChange={e => setValue(e.target.value)}
+                        value={selectionText}
+                        onChange={e => setSelectionText(e.target.value)}
                         placeholder="Please input your some thing and what do you do."
                         clearOnEscape
                         overrides={{
@@ -162,58 +160,25 @@ export function ReaderBoxForm(props: ReaderBoxFormProps) {
             <div style={{
                 justifyContent: 'space-between',
                 display: 'flex',
-                marginTop: '18px',
             }}
             >
-                <div>
-                    <Select
-                        options={[
-                            { id: 'AliceBlue', color: '#F0F8FF' },
-                            { id: 'AntiqueWhite', color: '#FAEBD7' },
-                            { id: 'Aqua', color: '#00FFFF' },
-                            { id: 'Aquamarine', color: '#7FFFD4' },
-                            { id: 'Azure', color: '#F0FFFF' },
-                            { id: 'Beige', color: '#F5F5DC' },
-                        ]}
-                        labelKey="id"
-                        valueKey="color"
-                        onChange={({ value }) => setChannel(value)}
-                        value={chanel}
-                        overrides={{
-                            ControlContainer: {
-                                style: ({ _$theme }) => ({
-                                    backgroundColor: '#404040',
-                                    borderColor: '#404040',
-                                }),
-                            },
-                            ValueContainer: {
-                                style: ({ _$theme }) => ({
-                                    backgroundColor: '#404040',
-                                    margin: '0',
-                                    padding: '0',
-                                }),
-                            },
-                            Placeholder: {
-                                style: ({ _$theme }) => ({
-                                    color: '#FFFFFF',
-                                }),
-                            },
-
-                        }}
-                    />
-                </div>
+                <div></div>
                 <Button
-                    onClick={() => { console.log(value) }}
+                    onClick={() => { console.log(link) }}
                     overrides={{
                         BaseButton: {
                             style: ({ _$theme }) => ({
                                 backgroundColor: '#0670EB',
                                 color: '#FFFFFF',
+                                fontSize: '18px',
+                                width: '108px',
+                                height: '33px',
+                                borderRadius: '4px',
                             }),
                         },
                     }}
                 >
-                    Save
+                    + Save
                 </Button>
             </div>
         </div>
