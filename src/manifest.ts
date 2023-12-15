@@ -22,12 +22,12 @@ export function getManifest() {
         },
 
         options_ui: {
-            page: 'src/options/index.html',
+            page: 'src/browser-extension/options/index.html',
             open_in_tab: true,
         },
 
         background: {
-            service_worker: 'src/background/background.ts',
+            service_worker: 'src/browser-extension/background/background.ts',
         },
 
         content_scripts: [
@@ -39,7 +39,7 @@ export function getManifest() {
             {
                 matches: ['<all_urls>'],
                 all_frames: true,
-                js: ['src/content-scripts/index.tsx'],
+                js: ['src/browser-extension/content-scripts/index.tsx'],
             },
         ],
 

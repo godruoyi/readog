@@ -1,4 +1,4 @@
-import * as twitterUtil from '../supports/tweet'
+import * as twitterUtil from '../../supports/tweet'
 
 async function main() {
     for await (const tweet of twitterUtil.observeTweets()) {

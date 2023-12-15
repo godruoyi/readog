@@ -14,3 +14,13 @@ export interface ILink {
     selectionText?: string
     selectionUrl?: string
 }
+
+export interface ISettings {
+    provider: {
+        tg: {
+            token: string
+            channelID: string
+            enable: boolean
+        }
+    }
+}

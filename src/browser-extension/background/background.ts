@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill'
-import { transformBrowserTabToLink } from '../supports/browser'
+import { transformBrowserTabToLink } from '../../supports/browser'
 
 browser.contextMenus.create(
     {

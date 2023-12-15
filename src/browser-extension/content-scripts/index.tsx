@@ -1,4 +1,4 @@
-import '../supports/enableDevHMR'
+import '../../supports/enableDevHMR'
 import browser from 'webextension-polyfill'
 import type { Root } from 'react-dom/client'
 import { createRoot } from 'react-dom/client'
@@ -9,10 +9,10 @@ import preset from 'jss-preset-default'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { Client as Styletron } from 'styletron-engine-atomic'
 import { BaseProvider, LightTheme } from 'baseui'
-import { createPopupCardElement, queryPopupCardElement } from '../supports/popup'
-import { GlobalSuspense } from '../components/GlobalSuspense'
-import { ReaderBox } from '../components/ReaderBox'
-import type { ILink } from '../types'
+import { createPopupCardElement, queryPopupCardElement } from '../../supports/popup'
+import { GlobalSuspense } from '../../components/GlobalSuspense'
+import { ReaderBox } from '../../components/ReaderBox'
+import type { ILink } from '../../types'
 
 let root: Root | null = null
 const generateId = createGenerateId()
