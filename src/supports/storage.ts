@@ -7,7 +7,9 @@ export async function syncSettings(settings: Partial<ISettings>) {
 }
 
 const settingKeys: Record<keyof ISettings, number> = {
-    provider: 1,
+    tg: 1,
+    sqlite: 1,
+    file: 1,
 }
 
 export async function getSettings(): Promise<ISettings> {

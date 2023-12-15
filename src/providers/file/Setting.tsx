@@ -28,27 +28,22 @@ interface ContentGeneralProps {
 
 export function Setting(props: ContentGeneralProps) {
     const styles = useStyles()
+    const [path, setPath] = useState('')
     const [enable, setEnable] = useState(false)
-    const [channelID, setChannelID] = useState('')
-    const [token, setToken] = useState('')
 
     useEffect(() => {
         ;(async () => {
             const settings = await getSettings()
 
-            console.log('get settings', settings)
-
-            setEnable(settings.tg.enable)
-            setChannelID(settings.tg.channelID)
-            setToken(settings.tg.token)
+            setPath(settings.file.path)
+            setEnable(settings.file.enable)
         })()
     }, [])
 
     const buttonSave = async () => {
         await syncSettings({
-            tg: {
-                channelID,
-                token,
+            file: {
+                path,
                 enable,
             },
         })
@@ -61,7 +56,7 @@ export function Setting(props: ContentGeneralProps) {
                 justifyContent: 'space-between',
             }}
             >
-                <h1 className={styles.t0}>Telegram</h1>
+                <h1 className={styles.t0}>File</h1>
                 <Switch checked={enable} onChange={setEnable}></Switch>
             </div>
             <div style={{
@@ -69,20 +64,14 @@ export function Setting(props: ContentGeneralProps) {
             }}
             >
                 <Input
-                    label="Token"
+                    label="File Path"
                     caption="Good relationships don't just happen.They take time, patience and two people who truly want to be together."
                     placeholder="Would rather do the regret, also don't miss the regret"
-                    type="password"
-                    value={token}
-                    onChange={setToken}
+                    type="input"
+                    value={path}
+                    onChange={setPath}
                 />
 
-                <Input
-                    label="Channel ID"
-                    placeholder="Would rather do the regret, also don't miss the regret"
-                    value={channelID}
-                    onChange={setChannelID}
-                />
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',

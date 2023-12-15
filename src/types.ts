@@ -16,11 +16,17 @@ export interface ILink {
 }
 
 export interface ISettings {
-    provider: {
-        tg: {
-            token: string
-            channelID: string
-            enable: boolean
-        }
+    tg: {
+        token: string
+        channelID: string
+        enable: boolean
+    }
+    sqlite: {
+        enable: boolean
+        path: string
+    }
+    file: {
+        enable: boolean
+        path: string
     }
 }
