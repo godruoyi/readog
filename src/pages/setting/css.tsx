@@ -1,5 +1,6 @@
 import { createUseStyles } from 'react-jss'
 
+// todo move to Setting.tsx
 const useStyles = createUseStyles({
     container: {
         backgroundColor: '#262626',

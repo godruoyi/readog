@@ -15,7 +15,6 @@ const useStyles = createUseStyles({
         minWidth: '460px',
         maxWidth: '460px',
         lineHeight: '1.6',
-        minHeight: '400px',
         top: '10px',
         right: '10px',
         width: 'max-content',
@@ -42,14 +41,9 @@ export function Popup(props: IReaderBoxProps) {
     }
 
     const handleDocumentClick = (e: any) => {
-        // if (appTarget?.current?.contains(e.target)) {
-        //     console.log('contains')
-        //     return
-        // }
         if (e.target?.id === ExtensionContainerId) {
             return
         }
-
         setIsOpen(false)
     }
 

@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react'
+import type { InputOverrides } from 'baseui/input'
 import { Input as BaseInput, SIZE } from 'baseui/input'
+import type { FormControlOverrides } from 'baseui/form-control'
 import { FormControl } from 'baseui/form-control'
 
-interface InputProps {
+export interface InputProps {
     label?: string
     type?: string
     placeholder?: string
     caption?: string
     value?: string
     onChange?: (v: string) => void
+
+    formControlOverrides?: FormControlOverrides
+    inputOverrides?: InputOverrides
 }
 
 export function Input(props: InputProps) {
@@ -21,14 +26,16 @@ export function Input(props: InputProps) {
         <FormControl
             label={() => props.label}
             caption={() => props.caption}
-            overrides={{
-                Label: {
-                    style: ({ _$theme }) => ({
-                        color: '#D1D1D1',
-                        fontSize: '16px',
-                    }),
-                },
-            }}
+            overrides={
+                props.formControlOverrides ?? {
+                    Label: {
+                        style: ({ _$theme }) => ({
+                            color: '#D1D1D1',
+                            fontSize: '16px',
+                        }),
+                    },
+                }
+            }
         >
             <BaseInput
                 onChange={(event) => {
@@ -41,6 +48,7 @@ export function Input(props: InputProps) {
                 placeholder={props.placeholder}
                 size={SIZE.mini}
                 value={value}
+                overrides={props.inputOverrides ?? {}}
             />
         </FormControl>
     )

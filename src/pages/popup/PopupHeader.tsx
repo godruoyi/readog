@@ -4,7 +4,6 @@ const useStyles = createUseStyles({
     header: {
         color: '#fff',
         display: 'flex',
-        fontSize: '16px',
         height: '40px',
         lineHeight: '40px',
         justifyContent: 'space-between',
@@ -12,16 +11,18 @@ const useStyles = createUseStyles({
         padding: '0 20px',
     },
     logo: {
-        fontSize: '20px',
+        fontSize: '22px',
     },
     setting: {
-        marginTop: '3px',
+        alignItems: 'center',
+        display: 'flex',
     },
 })
 
 export function PopupHeader() {
     const styles = useStyles()
 
+    // todo change setting icon
     return (
         <div className={styles.header}>
             <div className={styles.logo}>Reader</div>
