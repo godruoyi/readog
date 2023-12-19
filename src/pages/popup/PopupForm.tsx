@@ -26,11 +26,17 @@ const useStyles = createUseStyles({
     },
 })
 
-export function ReaderBoxForm(props: ReaderBoxFormProps) {
+export function PopupForm(props: ReaderBoxFormProps) {
     const [link, setLink] = useState(props.link)
     const [title, setTitle] = useState(props.title)
     const [selectionText, setSelectionText] = useState(props.selectionText)
     const styles = useStyles()
+
+    const onSava = () => {
+        // await dispatch({})
+
+        console.log(link, title, selectionText)
+    }
 
     return (
         <div className={styles.container}>
@@ -164,7 +170,7 @@ export function ReaderBoxForm(props: ReaderBoxFormProps) {
             >
                 <div></div>
                 <Button
-                    onClick={() => { console.log(link) }}
+                    onClick={onSava}
                     overrides={{
                         BaseButton: {
                             style: ({ _$theme }) => ({

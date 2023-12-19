@@ -1,9 +1,10 @@
 import { createUseStyles } from 'react-jss'
 import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
-import type { ILink } from '../types'
-import { ReaderBoxHeader } from './ReaderBoxHeader'
-import { ReaderBoxForm } from './ReaderBoxForm'
+import type { ILink } from '../../types'
+import { ExtensionContainerId } from '../../constants'
+import { PopupHeader } from './PopupHeader'
+import { PopupForm } from './PopupForm'
 
 export interface IReaderBoxProps extends ILink {}
 
@@ -22,27 +23,30 @@ const useStyles = createUseStyles({
         borderRadius: '4px',
         border: '1.2px solid #404040',
         transform: 'translateY(-150%)',
-        transition: 'all ease-in-out 250ms',
+        transition: 'all ease-in-out 100ms',
     },
     open: {
         transform: 'translateY(0)',
     },
 })
 
-export function ReaderBox(props: IReaderBoxProps) {
+export function Popup(props: IReaderBoxProps) {
     const styles = useStyles()
     const appTarget = useRef(null)
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(true)
 
     const keyPress = (e: any) => {
-        if (e.keyCode == 27) {
+        if (e.keyCode === 27) {
             setIsOpen(false)
         }
     }
 
     const handleDocumentClick = (e: any) => {
-        // @ts-expect-error
-        if (appTarget?.current?.contains(e.target)) {
+        // if (appTarget?.current?.contains(e.target)) {
+        //     console.log('contains')
+        //     return
+        // }
+        if (e.target?.id === ExtensionContainerId) {
             return
         }
 
@@ -53,18 +57,18 @@ export function ReaderBox(props: IReaderBoxProps) {
         setIsOpen(true)
 
         document.addEventListener('keyup', keyPress)
-        // document.addEventListener('click', handleDocumentClick)
+        document.addEventListener('click', handleDocumentClick)
 
         return () => {
-            // document.addEventListener('keyup', keyPress)
-            // document.removeEventListener('click', handleDocumentClick)
+            document.removeEventListener('keyup', keyPress)
+            document.removeEventListener('click', handleDocumentClick)
         }
     }, [])
 
     return (
         <div className={clsx(styles.container, { [styles.open]: isOpen })} ref={appTarget}>
-            <ReaderBoxHeader />
-            <ReaderBoxForm title={props.title} link={props.selectionUrl ?? props.url} selectionText={props.selectionText} />
+            <PopupHeader />
+            <PopupForm title={props.selectionText ?? props.title} link={props.selectionUrl ?? props.url} selectionText={props.selectionText} />
         </div>
     )
 }

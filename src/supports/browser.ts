@@ -7,6 +7,10 @@ export function isSystemLink(link: string) {
     )
 }
 
+export async function getBrowser(): Promise<typeof Browser> {
+    return (await import('webextension-polyfill')).default
+}
+
 export function transformBrowserTabToLink(
     tab: Browser.Tabs.Tab,
     menuData?: Browser.Menus.OnClickData,

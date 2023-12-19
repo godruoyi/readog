@@ -19,7 +19,7 @@ const useStyles = createUseStyles({
     },
 })
 
-export function ReaderBoxHeader() {
+export function PopupHeader() {
     const styles = useStyles()
 
     return (
@@ -29,7 +29,6 @@ export function ReaderBoxHeader() {
                 className={styles.setting}
                 onClick={() => {
                     // TODO: open setting page
-                    console.log('open setting page')
                 }}
             >
                 <svg width="20" height="20" viewBox="0 0 23 23" fill="none" xmlns="http://www.w3.org/2000/svg">

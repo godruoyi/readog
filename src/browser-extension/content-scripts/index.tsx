@@ -11,8 +11,8 @@ import { Client as Styletron } from 'styletron-engine-atomic'
 import { BaseProvider, LightTheme } from 'baseui'
 import { createPopupCardElement, queryPopupCardElement } from '../../supports/popup'
 import { GlobalSuspense } from '../../components/GlobalSuspense'
-import { ReaderBox } from '../../components/ReaderBox'
 import type { ILink } from '../../types'
+import { Popup } from '../../pages/popup/Popup'
 
 let root: Root | null = null
 const generateId = createGenerateId()
@@ -33,6 +33,10 @@ async function showPopup(link: ILink) {
         prefix: `x-styletron-`,
     })
 
+    if (root) {
+        root.unmount()
+    }
+
     root = createRoot(popup)
     root.render(
         <React.StrictMode>
@@ -40,7 +44,7 @@ async function showPopup(link: ILink) {
                 <JSS jss={jss} generateId={generateId} classNamePrefix="__godruoyi-readhub-extension">
                     <StyletronProvider value={engine}>
                         <BaseProvider theme={LightTheme}>
-                            <ReaderBox {...link} />
+                            <Popup {...link} />
                         </BaseProvider>
                     </StyletronProvider>
                 </JSS>
@@ -50,11 +54,11 @@ async function showPopup(link: ILink) {
 }
 
 async function main() {
-    if (window.top !== window) {
-        console.debug('not top window')
-
-        return
-    }
+    // if (window.top !== window) {
+    //     console.debug('not top window')
+    //
+    //     return
+    // }
 
     browser.runtime.onMessage.addListener((link) => {
         console.info('receive link', link)

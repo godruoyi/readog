@@ -15,6 +15,7 @@ export interface ILink {
     selectionUrl?: string
 }
 
+// todo refactor
 export interface ISettings {
     tg: {
         token: string
@@ -29,4 +30,26 @@ export interface ISettings {
         enable: boolean
         path: string
     }
+}
+
+export interface IError {
+    message: string
+}
+
+export interface IStorage {
+    store(link: ILink): Promise<IError | void>
+}
+
+export interface IProvider {
+    boot(): Promise<IError | void>
+
+    register(config: IProviderConfig): Promise<IError | void>
+
+    provider(): IStorage
+}
+
+export interface IProviderConfig {
+    name: string
+    enable: boolean
+    config: Record<string, any>
 }
