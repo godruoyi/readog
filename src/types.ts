@@ -15,21 +15,13 @@ export interface ILink {
     selectionUrl?: string
 }
 
-// todo refactor
+export interface IConfig extends Record<string, any> {
+}
+
 export interface ISettings {
-    tg: {
-        token: string
-        channelID: string
-        enable: boolean
-    }
-    sqlite: {
-        enable: boolean
-        path: string
-    }
-    file: {
-        enable: boolean
-        path: string
-    }
+    // other general settings
+
+    providers: Record<string, IConfig>
 }
 
 export interface IError {
@@ -41,15 +33,9 @@ export interface IStorage {
 }
 
 export interface IProvider {
-    boot(): Promise<IError | void>
+    boot(): Promise<void>
 
-    register(config: IProviderConfig): Promise<IError | void>
+    register(config: IConfig): Promise<void>
 
     provider(): IStorage
-}
-
-export interface IProviderConfig {
-    name: string
-    enable: boolean
-    config: Record<string, any>
 }

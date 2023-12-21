@@ -5,5 +5,8 @@ export default defineConfig({
         globals: true,
         environment: 'jsdom',
         root: 'src',
+        setupFiles: [
+            './src/browser-extension/setupForTest.ts',
+        ],
     },
 })

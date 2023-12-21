@@ -17,5 +17,6 @@ export default defineConfig({
     build: {
         minify: !isDev,
         sourcemap: isDev,
+        // target: 'chrome105',
     },
 })

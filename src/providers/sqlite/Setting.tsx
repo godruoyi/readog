@@ -5,7 +5,7 @@ import { SIZE } from 'baseui/input'
 import { useEffect, useState } from 'react'
 import { Input } from '../../components/Input'
 import { Switch } from '../../components/Switch'
-import { getSettings, syncSettings } from '../../supports/storage'
+import { getProviderSettings, syncProviderSettings } from '../../supports/storage'
 
 const useStyles = createUseStyles({
     container: {
@@ -33,19 +33,17 @@ export function Setting(props: ContentGeneralProps) {
 
     useEffect(() => {
         ;(async () => {
-            const settings = await getSettings()
+            const settings = await getProviderSettings('sqlite')
 
-            setPath(settings.sqlite.path)
-            setEnable(settings.sqlite.enable)
+            setPath(settings.path ?? '')
+            setEnable(settings.enable ?? false)
         })()
     }, [])
 
     const buttonSave = async () => {
-        await syncSettings({
-            sqlite: {
-                path,
-                enable,
-            },
+        await syncProviderSettings('sqlite', {
+            path,
+            enable,
         })
     }
 

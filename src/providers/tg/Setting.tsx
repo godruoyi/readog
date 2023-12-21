@@ -5,7 +5,7 @@ import { SIZE } from 'baseui/input'
 import { useEffect, useState } from 'react'
 import { Input } from '../../components/Input'
 import { Switch } from '../../components/Switch'
-import { getSettings, syncSettings } from '../../supports/storage'
+import { getProviderSettings, syncProviderSettings } from '../../supports/storage'
 
 const useStyles = createUseStyles({
     container: {
@@ -34,23 +34,21 @@ export function Setting(props: ContentGeneralProps) {
 
     useEffect(() => {
         ;(async () => {
-            const settings = await getSettings()
+            const settings = await getProviderSettings('tg')
 
             console.log('get settings', settings)
 
-            setEnable(settings.tg.enable)
-            setChannelID(settings.tg.channelID)
-            setToken(settings.tg.token)
+            setEnable(settings.enable ?? false)
+            setChannelID(settings.channelID ?? '')
+            setToken(settings.token ?? '')
         })()
     }, [])
 
     const buttonSave = async () => {
-        await syncSettings({
-            tg: {
-                channelID,
-                token,
-                enable,
-            },
+        await syncProviderSettings('tg', {
+            channelID,
+            token,
+            enable,
         })
     }
 

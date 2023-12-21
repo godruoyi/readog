@@ -30,6 +30,7 @@ export function Content() {
 
     return (
         <div className={styles.container}>
+
             <div className={styles.menu}>
                 <MenuItem title="General" id="general" selected={selectedID === 'general'} onClick={setSelectedID}></MenuItem>
                 <MenuItem title="Telegram" id="tg" logo={TgLogo()} selected={selectedID === 'tg'} onClick={setSelectedID}></MenuItem>

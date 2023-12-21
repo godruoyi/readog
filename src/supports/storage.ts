@@ -1,58 +1,31 @@
-import type { IProviderConfig, ISettings } from '../types'
-import { getBrowser } from './browser'
+import browser from 'webextension-polyfill'
+import type { IConfig, ISettings } from '../types'
 
 export async function syncSettings(settings: Partial<ISettings>) {
     console.log('sync settings', settings)
-    const b = await getBrowser()
+    await browser.storage.sync.set(settings)
+}
 
-    await b.storage.sync.set(settings)
+export async function syncProviderSettings(name: string, config: Partial<IConfig>) {
+    const original = await getSettings()
+    original.providers[name] = config
+
+    await syncSettings(original)
 }
 
 const settingKeys: Record<keyof ISettings, number> = {
-    tg: 1,
-    sqlite: 1,
-    file: 1,
+    providers: 1,
 }
 
 export async function getSettings(): Promise<ISettings> {
-    const b = await getBrowser()
-    const settings = await b.storage.sync.get(Object.keys(settingKeys))
+    const settings = await browser.storage.sync.get(Object.keys(settingKeys))
 
     return settings as ISettings
 }
 
-export async function getEnabledProvidersConfig(): Promise<IProviderConfig[]> {
+export async function getProviderSettings(name: string): Promise<IConfig> {
     const settings = await getSettings()
-    const providers: IProviderConfig[] = []
+    const config = settings.providers[name]
 
-    if (!settings) {
-        return providers
-    }
-
-    // todo refactor
-    if (settings.tg.enable) {
-        providers.push({
-            name: 'tg',
-            enable: true,
-            config: settings.tg,
-        })
-    }
-
-    if (settings.sqlite.enable) {
-        providers.push({
-            name: 'sqlite',
-            enable: true,
-            config: settings.sqlite,
-        })
-    }
-
-    if (settings.file.enable) {
-        providers.push({
-            name: 'file',
-            enable: true,
-            config: settings.file,
-        })
-    }
-
-    return providers
+    return config || {} as IConfig
 }

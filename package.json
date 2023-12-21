@@ -41,6 +41,7 @@
     "vite": "^4.5.0",
     "vite-tsconfig-paths": "^4.2.0",
     "vitest": "^1.0.4",
+    "vitest-chrome": "^0.1.0",
     "webextension-polyfill": "^0.10.0"
   }
 }

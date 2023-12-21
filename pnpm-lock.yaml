@@ -88,6 +88,9 @@ devDependencies:
   vitest:
     specifier: ^1.0.4
     version: 1.0.4(happy-dom@12.10.3)(jsdom@23.0.1)
+  vitest-chrome:
+    specifier: ^0.1.0
+    version: 0.1.0
   webextension-polyfill:
     specifier: ^0.10.0
     version: 0.10.0
@@ -1169,6 +1172,13 @@ packages:
     resolution: {integrity: sha512-mSM/iKUk5fDDrEV/e83qY+Cr3I1+Q3qqTuEn++HAWYjEa1+NxZr6CNrcJGf2ZTnq4HoFGC3zaTPZTobCzCFukA==}
     dependencies:
       '@babel/types': 7.23.5
+    dev: true
+
+  /@types/chrome@0.0.114:
+    resolution: {integrity: sha512-i7qRr74IrxHtbnrZSKUuP5Uvd5EOKwlwJq/yp7+yTPihOXnPhNQO4Z5bqb1XTnrjdbUKEJicaVVbhcgtRijmLA==}
+    dependencies:
+      '@types/filesystem': 0.0.34
+      '@types/har-format': 1.2.14
     dev: true
 
   /@types/chrome@0.0.233:
@@ -5465,6 +5475,12 @@ packages:
       rollup: 4.9.1
     optionalDependencies:
       fsevents: 2.3.3
+    dev: true
+
+  /vitest-chrome@0.1.0:
+    resolution: {integrity: sha512-Bs1uywAolbc46h2tcaETQyFMTnOHjSA85iH10Zoe8ZMEl/71nuSdxs3z+KMxVZtN88TEgWicnl5vmbDO1OhoEw==}
+    dependencies:
+      '@types/chrome': 0.0.114
     dev: true
 
   /vitest@1.0.4(happy-dom@12.10.3)(jsdom@23.0.1):

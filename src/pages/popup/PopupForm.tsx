@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { createUseStyles } from 'react-jss'
+import type { ILink } from '../../types'
+import { fireLinkToDispatcher } from '../../dispatch'
 import { PopupInput } from './PopupInput'
 import { PopupTextarea } from './PopupTextarea'
 import { PopupFooter } from './PopupFooter'
@@ -26,10 +28,20 @@ export function PopupForm(props: ReaderBoxFormProps) {
     const [link, setLink] = useState(props.link)
     const [title, setTitle] = useState(props.title)
     const [selectionText, setSelectionText] = useState(props.selectionText)
+    const [loading, setLoading] = useState(false)
     const styles = useStyles()
 
-    const onSava = () => {
-        console.log(link, title, selectionText)
+    const onSava = async () => {
+        // todo validate form
+        setLoading(true)
+        const errors = await fireLinkToDispatcher({
+            url: link,
+            title,
+        } as ILink)
+
+        // alert errors
+        console.log(errors)
+        setLoading(false)
     }
 
     return (
@@ -49,7 +61,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
                 />
             </div>
             <PopupTextarea value={selectionText} onChange={v => setSelectionText(v)}></PopupTextarea>
-            <PopupFooter onSubmit={onSava}></PopupFooter>
+            <PopupFooter onSubmit={onSava} loading={loading}></PopupFooter>
         </div>
     )
 }
