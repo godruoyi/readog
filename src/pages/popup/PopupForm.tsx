@@ -27,7 +27,7 @@ const useStyles = createUseStyles({
 export function PopupForm(props: ReaderBoxFormProps) {
     const [link, setLink] = useState(props.link)
     const [title, setTitle] = useState(props.title)
-    const [selectionText, setSelectionText] = useState(props.selectionText)
+    const [remark, setRemark] = useState(props.selectionText)
     const [loading, setLoading] = useState(false)
     const styles = useStyles()
 
@@ -37,6 +37,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
         const errors = await fireLinkToDispatcher({
             url: link,
             title,
+            selectionText: remark,
         } as ILink)
 
         // alert errors
@@ -60,7 +61,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
                     onChange={v => setTitle(v)}
                 />
             </div>
-            <PopupTextarea value={selectionText} onChange={v => setSelectionText(v)}></PopupTextarea>
+            <PopupTextarea value={remark} onChange={v => setRemark(v)}></PopupTextarea>
             <PopupFooter onSubmit={onSava} loading={loading}></PopupFooter>
         </div>
     )

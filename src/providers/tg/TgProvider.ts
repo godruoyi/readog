@@ -39,7 +39,7 @@ class TgStorage implements IStorage {
 
     private convertLinkToMessage(link: ILink): string {
         // todo better message formatting and full link info
-        return `${link.title} - ${link.url}`
+        return `${link.title}\n\n${link.selectionText}\n\n${link.url}`
     }
 }
 
