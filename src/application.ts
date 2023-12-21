@@ -1,6 +1,7 @@
 import type { IConfig, IProvider, IStorage } from './types'
 import { FileProvider } from './providers/file/file'
 import { getSettings } from './supports/storage'
+import { TgProvider } from './providers/tg/TgProvider'
 
 class Application {
     /**
@@ -17,6 +18,7 @@ class Application {
      */
     private providers: IProvider[] = [
         new FileProvider(),
+        new TgProvider(),
     ]
 
     /**

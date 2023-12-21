@@ -1,5 +1,7 @@
 import type { IConfig, ILink, IProvider, IStorage } from '../../types'
 
+// todo cannot dynamic read/write local file in web extension
+// find a way to do this
 export class FileProvider implements IProvider {
     private path: string = ''
 

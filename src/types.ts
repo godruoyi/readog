@@ -33,9 +33,25 @@ export interface IStorage {
 }
 
 export interface IProvider {
+    /**
+     * Boot the provider when all providers are registered.
+     *
+     * @throws Error boot error, such as cannot connect to service, etc.
+     */
     boot(): Promise<void>
 
+    /**
+     * Register a service provider.
+     *
+     * @param config provider config
+     * @throws Error registration service provider error, such as invalid config, cannot connect to service, etc.
+     */
     register(config: IConfig): Promise<void>
 
+    /**
+     * Provider a storage service.
+     *
+     * Should always return a valid storage service and never throw an error.
+     */
     provider(): IStorage
 }
