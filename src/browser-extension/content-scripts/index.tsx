@@ -17,7 +17,7 @@ import { Popup } from '../../pages/popup/Popup'
 let root: Root | null = null
 const generateId = createGenerateId()
 
-async function showPopup(link: ILink) {
+export async function showPopup(link: ILink) {
     let popup = await queryPopupCardElement()
     if (!popup) {
         popup = await createPopupCardElement()

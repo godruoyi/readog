@@ -40,8 +40,10 @@ export function PopupForm(props: ReaderBoxFormProps) {
             selectionText: remark,
         } as ILink)
 
-        // alert errors
-        console.log(errors)
+        if (errors) {
+            console.error('dispatch errors', errors)
+        }
+
         setLoading(false)
     }
 

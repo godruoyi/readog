@@ -31,11 +31,11 @@ export function getManifest() {
         },
 
         content_scripts: [
-            // {
-            //     matches: ['https://twitter.com/*'],
-            //     all_frames: true,
-            //     js: ['src/content-scripts/twitter.ts'],
-            // },
+            {
+                matches: ['https://twitter.com/*'],
+                all_frames: true,
+                js: ['src/browser-extension/content-scripts/twitter.ts'],
+            },
             {
                 matches: ['<all_urls>'],
                 all_frames: true,

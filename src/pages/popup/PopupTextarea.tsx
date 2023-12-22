@@ -9,7 +9,7 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
         }}
         >
             <FormControl
-                caption="We recommend you record your think on this monent"
+                caption="Recording something will simplify locating it later"
                 overrides={{
                     Caption: {
                         style: ({ _$theme }) => ({
@@ -24,7 +24,7 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
                 <Textarea
                     value={props.value}
                     onChange={e => props.onChange(e.target.value)}
-                    placeholder="Please input your some thing and what do you do."
+                    placeholder="Your thoughts at this moment are important, write something."
                     clearOnEscape
                     size={SIZE.mini}
                     overrides={{
