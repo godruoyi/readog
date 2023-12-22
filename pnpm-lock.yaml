@@ -11,6 +11,9 @@ dependencies:
   baseui-sd:
     specifier: ^12.2.4
     version: 12.2.4(@types/react@18.0.26)(react-dom@18.2.0)(react@18.2.0)(styletron-react@6.1.1)
+  bootstrap-icons:
+    specifier: ^1.11.2
+    version: 1.11.2
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
@@ -1861,6 +1864,10 @@ packages:
   /boolbase@1.0.0:
     resolution: {integrity: sha512-JZOSA7Mo9sNGB8+UjSgzdLtokWAky1zbztM3WRLCbZ70/3cTANmQmOdR7y2g+J0e2WXywy1yS468tY+IruqEww==}
     dev: true
+
+  /bootstrap-icons@1.11.2:
+    resolution: {integrity: sha512-TgdiPv+IM9tgDb+dsxrnGIyocsk85d2M7T0qIgkvPedZeoZfyeG/j+yiAE4uHCEayKef2RP05ahQ0/e9Sv75Wg==}
+    dev: false
 
   /brace-expansion@1.1.11:
     resolution: {integrity: sha512-iCuPHDFgrHX7H2vEI/5xpz07zSHB00TpugqhmYtVmMO6518mCuRMoOYFldEBl0g187ufozdaHgWKcYFb61qGiA==}

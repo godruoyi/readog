@@ -11,6 +11,38 @@ export async function getBrowser(): Promise<typeof Browser> {
     return (await import('webextension-polyfill')).default
 }
 
+export async function createOrUpdateBookmarkFolder(name: string, folderID?: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
+    const browser = await getBrowser()
+    if (folderID) {
+        try {
+            const b = await browser.bookmarks.get(folderID)
+            if (b.length > 0) {
+                return await updateBookmarkFolder(name, folderID)
+            }
+        }
+        catch (_) {}
+    }
+
+    return await createBookmarkFolder(name)
+}
+
+export async function updateBookmarkFolder(name: string, folderID: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
+    const browser = await getBrowser()
+
+    return await browser.bookmarks.update(folderID, {
+        title: name,
+    })
+}
+
+export async function createBookmarkFolder(name: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
+    const browser = await getBrowser()
+
+    return await browser.bookmarks.create({
+        title: name,
+        parentId: '1', // top level
+    })
+}
+
 export function transformBrowserTabToLink(
     tab: Browser.Tabs.Tab,
     menuData?: Browser.Menus.OnClickData,

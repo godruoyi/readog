@@ -45,6 +45,7 @@ export function getManifest() {
 
         permissions: [
             'tabs',
+            'bookmarks',
             'contextMenus',
             'storage',
         ],

@@ -18,7 +18,15 @@ const settingKeys: Record<keyof ISettings, number> = {
 }
 
 export async function getSettings(): Promise<ISettings> {
-    const settings = await browser.storage.sync.get(Object.keys(settingKeys))
+    let settings = await browser.storage.sync.get(Object.keys(settingKeys))
+
+    if (!settings) {
+        settings = {}
+    }
+
+    if (!settings.providers) {
+        settings.providers = {}
+    }
 
     return settings as ISettings
 }

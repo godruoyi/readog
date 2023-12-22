@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill'
 import { transformBrowserTabToLink } from '../../supports/browser'
+import type { ILink } from '../../types'
 
 browser.contextMenus.create(
     {
@@ -29,3 +30,25 @@ browser.contextMenus?.onClicked.addListener(async (info, tab) => {
 
     browser.tabs.sendMessage(tab.id, transformBrowserTabToLink(tab, info))
 })
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log('background receive message', request, sender, sendResponse)
+
+    if (request?.type == 'create-bookmark') {
+        findOrCreateBookmark(request.payload as ILink, request.payload.folderID).then((b) => {
+            sendResponse({
+                bookmark: b,
+            })
+        })
+    }
+})
+
+async function findOrCreateBookmark(link: ILink, folderID: string) {
+    // todo skip if already exists
+
+    return await browser.bookmarks.create({
+        title: link.title,
+        url: link.url,
+        parentId: folderID,
+    })
+}

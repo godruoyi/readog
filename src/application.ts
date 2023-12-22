@@ -2,6 +2,7 @@ import type { IConfig, IProvider, IStorage } from './types'
 import { FileProvider } from './providers/file/file'
 import { getSettings } from './supports/storage'
 import { TgProvider } from './providers/tg/TgProvider'
+import { BookmarkProvider } from './providers/bookmark/BookmarkProvider'
 
 class Application {
     /**
@@ -19,6 +20,7 @@ class Application {
     private providers: IProvider[] = [
         new FileProvider(),
         new TgProvider(),
+        new BookmarkProvider(),
     ]
 
     /**
@@ -81,11 +83,23 @@ class Application {
      * @throws {IError} registering the providers failed
      */
     private async bootstrap(): Promise<void> {
-        const configs = await this.loadProvidersSettings()
+        const configs = await this.loadEnabledProvidersSettings()
+
+        if (configs === undefined) {
+            return
+        }
 
         for (const provider of this.providers) {
-            await this.registerProvider(provider, configs)
+            const name = this.normalizeProviderName(provider)
 
+            if (!name || !configs[name]) {
+                continue
+            }
+
+            // todo register provider failed should not effect other providers
+            await this.registerProvider(provider, configs[name])
+
+            // same as above
             await provider.boot()
 
             this.storages.push(provider.provider())
@@ -96,18 +110,11 @@ class Application {
      * Register the given provider.
      *
      * @param provider
-     * @param configs
+     * @param config
      * @private
      * @throws {IError} if the provider registration failed
      */
-    private async registerProvider(provider: IProvider, configs: IConfig): Promise<void> {
-        const providerName = this.normalizeProviderName(provider)
-
-        if (!configs[providerName]) {
-            return
-        }
-
-        const config = configs[providerName]
+    private async registerProvider(provider: IProvider, config: IConfig): Promise<void> {
         await provider.register(config)
     }
 
@@ -132,8 +139,14 @@ class Application {
      *
      * @private
      */
-    private async loadProvidersSettings(): Promise<Record<string, IConfig>> {
-        return (await getSettings()).providers
+    private async loadEnabledProvidersSettings(): Promise<Record<string, IConfig>> {
+        const p = (await getSettings()).providers
+
+        return Object.keys(p)
+            .filter(name => p[name].enable ?? false)
+            .reduce((obj, name) => {
+                return { ...obj, [name]: p[name] }
+            }, {} as Record<string, IConfig>)
     }
 }
 

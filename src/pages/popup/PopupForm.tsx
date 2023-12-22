@@ -40,7 +40,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
             selectionText: remark,
         } as ILink)
 
-        if (errors) {
+        if (errors && errors.length > 0) {
             console.error('dispatch errors', errors)
         }
 
