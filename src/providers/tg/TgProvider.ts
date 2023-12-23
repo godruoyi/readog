@@ -5,6 +5,8 @@ export class TgProvider implements IProvider {
 
     async boot(): Promise<void> {}
 
+    name(): string { return 'tg' }
+
     provider(): IStorage {
         return new TgStorage(<Telegram> this.tg)
     }

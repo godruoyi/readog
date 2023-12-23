@@ -6,6 +6,8 @@ export class BookmarkProvider implements IProvider {
 
     async boot(): Promise<void> {}
 
+    name(): string { return 'bookmark' }
+
     provider(): IStorage {
         return new BookmarkStorage(<string> this.folderID)
     }

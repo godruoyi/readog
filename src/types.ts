@@ -41,6 +41,13 @@ export interface IProvider {
     boot(): Promise<void>
 
     /**
+     * Get the provider name.
+     *
+     * We will use this name to get the provider config that from the browser storage.
+     */
+    name(): string
+
+    /**
      * Register a service provider.
      *
      * @param config provider config

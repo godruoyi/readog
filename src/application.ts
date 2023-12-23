@@ -122,16 +122,13 @@ class Application {
      * Normalize the given provider name, we will use this name to get the provider config
      * that from the browser storage.
      *
-     * @todo use a better way to get the provider name
-     *
      * @param provider
      * @private
      */
     private normalizeProviderName(provider: IProvider): string {
-        const name = provider.constructor.name
+        const name = provider.name()
 
-        // FileProvider -> file
-        return name.toLowerCase().replace('provider', '')
+        return name.toLowerCase().trim()
     }
 
     /**

@@ -5,6 +5,8 @@ import type { IConfig, ILink, IProvider, IStorage } from '../../types'
 export class FileProvider implements IProvider {
     private path: string = ''
 
+    name(): string { return 'file' }
+
     boot(): Promise<void> {
         return Promise.resolve(undefined)
     }

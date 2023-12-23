@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import type { ILink } from '../../types'
 import { ExtensionContainerId } from '../../constants'
+import { sleep } from '../../supports/time'
 import { PopupHeader } from './PopupHeader'
 import { PopupForm } from './PopupForm'
 
@@ -67,7 +68,9 @@ export function Popup(props: IReaderBoxProps) {
                 link={props.selectionUrl ?? props.url}
                 selectionText=""
                 onSubmitted={() => {
-                    setIsOpen(false)
+                    sleep(2000).then(() => {
+                        setIsOpen(false)
+                    })
                 }}
             />
         </div>
