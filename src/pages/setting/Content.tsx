@@ -5,7 +5,6 @@ import { Logo as TgLogo } from '../../providers/tg/Logo'
 import { Logo as BookmarkLogo } from '../../providers/bookmark/Logo'
 import { Setting as TgProviderSetting } from '../../providers/tg/Setting'
 import { Setting as BookmarkProviderSetting } from '../../providers/bookmark/Setting'
-import { ContentGeneral } from './ContentGeneral'
 
 const useStyles = createUseStyles({
     container: {
@@ -24,13 +23,13 @@ const useStyles = createUseStyles({
 
 export function Content() {
     const styles = useStyles()
-    const [selectedID, setSelectedID] = useState('general')
+    const [selectedID, setSelectedID] = useState('tg')
 
     return (
         <div className={styles.container}>
             {/* todo refactor to component */}
             <div className={styles.menu}>
-                <MenuItem title="General" id="general" selected={selectedID === 'general'} onClick={setSelectedID}></MenuItem>
+                {/* <MenuItem title="General" id="general" selected={selectedID === 'general'} onClick={setSelectedID}></MenuItem> */}
                 <MenuItem title="Telegram" id="tg" logo={TgLogo()} selected={selectedID === 'tg'} onClick={setSelectedID}></MenuItem>
                 <MenuItem title="Bookmark" id="bookmark" logo={BookmarkLogo()} selected={selectedID === 'bookmark'} onClick={setSelectedID}></MenuItem>
 
@@ -39,7 +38,7 @@ export function Content() {
                 {/* <MenuItem title="SQLite" id="sqlite" logo={SQLiteLogo()} selected={selectedID === 'sqlite'} onClick={setSelectedID}></MenuItem> */}
             </div>
             <div className={styles.content}>
-                <ContentGeneral display={selectedID === 'general'}></ContentGeneral>
+                {/* <ContentGeneral display={selectedID === 'general'}></ContentGeneral> */}
                 <TgProviderSetting display={selectedID === 'tg'}></TgProviderSetting>
                 <BookmarkProviderSetting display={selectedID === 'bookmark'}></BookmarkProviderSetting>
                 {/* <FileProviderSetting display={selectedID === 'file'}></FileProviderSetting> */}

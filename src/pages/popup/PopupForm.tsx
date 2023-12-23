@@ -10,6 +10,7 @@ interface ReaderBoxFormProps {
     link: string
     title?: string
     selectionText?: string
+    onSubmitted?: () => void
 }
 
 const useStyles = createUseStyles({
@@ -45,6 +46,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
         }
 
         setLoading(false)
+        props.onSubmitted?.()
     }
 
     return (

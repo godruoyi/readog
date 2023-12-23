@@ -68,8 +68,8 @@ export function Setting(props: ContentGeneralProps) {
             >
                 <Input
                     label="Token"
-                    caption="Good relationships don't just happen.They take time, patience and two people who truly want to be together."
-                    placeholder="Would rather do the regret, also don't miss the regret"
+                    caption="You can create a bot with @BotFather and get the token"
+                    placeholder="Please enter your telegram bot token"
                     type="password"
                     value={token}
                     onChange={setToken}
@@ -77,7 +77,7 @@ export function Setting(props: ContentGeneralProps) {
 
                 <Input
                     label="Channel ID"
-                    placeholder="Would rather do the regret, also don't miss the regret"
+                    placeholder="Which channel do you want to send to?"
                     value={channelID}
                     onChange={setChannelID}
                 />

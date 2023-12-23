@@ -62,7 +62,14 @@ export function Popup(props: IReaderBoxProps) {
     return (
         <div className={clsx(styles.container, { [styles.open]: isOpen })} ref={appTarget}>
             <PopupHeader />
-            <PopupForm title={props.title} link={props.selectionUrl ?? props.url} selectionText={props.selectionText} />
+            <PopupForm
+                title={props.selectionText ?? props.title}
+                link={props.selectionUrl ?? props.url}
+                selectionText=""
+                onSubmitted={() => {
+                    setIsOpen(false)
+                }}
+            />
         </div>
     )
 }

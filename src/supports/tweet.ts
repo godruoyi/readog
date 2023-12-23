@@ -100,7 +100,7 @@ export function createReadLaterMenuItem(): HTMLElement {
 </div>
 <div class="css-175oi2r r-16y2uox r-1wbh5a2">
     <div dir="ltr" class="" style="color: rgb(231, 233, 234); text-overflow: unset;">
-        <span class="css-1qaijid r-bcqeeo r-qvutc0 r-poiln3" style="text-overflow: unset;">Read Later</span>
+        <span class="css-1qaijid r-bcqeeo r-qvutc0 r-poiln3" style="text-overflow: unset;">Save to Readog</span>
     </div>
 </div>
 `

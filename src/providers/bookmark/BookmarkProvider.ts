@@ -29,7 +29,7 @@ class BookmarkStorage implements IStorage {
     }
 
     async sendLinkToBackground(link: ILink) {
-        const x = await browser.runtime.sendMessage({
+        const res = await browser.runtime.sendMessage({
             type: 'create-bookmark',
             payload: {
                 folderID: this.folderID,
@@ -37,6 +37,6 @@ class BookmarkStorage implements IStorage {
             },
         })
 
-        console.log('send link to background', x)
+        console.log('create bookmark response', res)
     }
 }

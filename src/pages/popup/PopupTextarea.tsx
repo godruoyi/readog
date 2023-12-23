@@ -9,14 +9,15 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
         }}
         >
             <FormControl
-                caption="Recording something will simplify locating it later"
+                // caption="Recording something will simplify locating it later"
                 overrides={{
                     Caption: {
                         style: ({ _$theme }) => ({
-                            color: '#AEAEAE',
+                            color: '#6B6B6B',
                             paddingLeft: '4px',
                             paddingTop: '0px',
                             marginTop: '0px',
+                            fontSize: '11px',
                         }),
                     },
                 }}
@@ -24,7 +25,7 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
                 <Textarea
                     value={props.value}
                     onChange={e => props.onChange(e.target.value)}
-                    placeholder="Your thoughts at this moment are important, write something."
+                    placeholder="Your current thoughts are important, write something here"
                     clearOnEscape
                     size={SIZE.mini}
                     overrides={{
@@ -43,7 +44,7 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
                                 paddingLeft: '10px',
                                 paddingTop: '5px',
                                 color: '#AEAEAE',
-                                fontSize: '14px',
+                                fontSize: '12px',
                             }),
                         },
                         InputContainer: {

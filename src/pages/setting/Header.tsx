@@ -18,8 +18,8 @@ export function Header() {
     const styles = useStyles()
     return (
         <div className={styles.header}>
-            <h1 className={styles.title}>Reader Options Settings</h1>
-            <span className={styles.description}>Have the courage to follow your heart and intuition. They somehow already know what you truly want to become</span>
+            <h1 className={styles.title}>Readog Options Settings</h1>
+            <span className={styles.description}>Welcome to Readog Options Settings, you can configure the settings here.</span>
         </div>
     )
 }
