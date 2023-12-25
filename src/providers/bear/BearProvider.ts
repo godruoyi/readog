@@ -40,6 +40,6 @@ class Bear implements IStorage {
 
     private parseTagsFromFolder(folder: string): string[] {
         // @todo support multiple tags
-        return [folder]
+        return [encodeURIComponent(folder)]
     }
 }
