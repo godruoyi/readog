@@ -1,6 +1,6 @@
 <h1 align="center">Readog is browser extension that can save your link to any platform</h1>
 
-https://github.com/godruoyi/readog/assets/16079222/150222aa-e8c8-4dd7-abb6-42570655ad9f
+https://github.com/godruoyi/readog/assets/16079222/a1fd44a0-90d0-44e5-95d0-f1381131833f
 
 ## Description
 
