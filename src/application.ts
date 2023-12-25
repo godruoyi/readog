@@ -3,6 +3,7 @@ import { FileProvider } from './providers/file/file'
 import { getSettings } from './supports/storage'
 import { TgProvider } from './providers/tg/TgProvider'
 import { BookmarkProvider } from './providers/bookmark/BookmarkProvider'
+import { BearProvider } from './providers/bear/BearProvider'
 
 class Application {
     /**
@@ -21,6 +22,7 @@ class Application {
         new FileProvider(),
         new TgProvider(),
         new BookmarkProvider(),
+        new BearProvider(),
     ]
 
     /**
