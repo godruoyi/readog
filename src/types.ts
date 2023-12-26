@@ -20,6 +20,7 @@ export interface IConfig extends Record<string, any> {
 
 export interface ISettings {
     // other general settings
+    selectedMenu?: string
 
     providers: Record<string, IConfig>
 }

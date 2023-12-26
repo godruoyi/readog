@@ -19,7 +19,7 @@ interface ContentGeneralProps {
     display: boolean
 }
 
-export function ContentGeneral(props: ContentGeneralProps) {
+export function GeneralConfig(props: ContentGeneralProps) {
     useEffect(() => {
         console.log('ContentGeneralProps', props.display)
     })

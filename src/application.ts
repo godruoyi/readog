@@ -1,5 +1,4 @@
 import type { IConfig, IProvider, IStorage } from './types'
-import { FileProvider } from './providers/file/file'
 import { getSettings } from './supports/storage'
 import { TgProvider } from './providers/tg/TgProvider'
 import { BookmarkProvider } from './providers/bookmark/BookmarkProvider'
@@ -19,7 +18,6 @@ class Application {
      * @private
      */
     private providers: IProvider[] = [
-        new FileProvider(),
         new TgProvider(),
         new BookmarkProvider(),
         new BearProvider(),

@@ -6,7 +6,7 @@ import { createUseStyles } from 'react-jss'
 import { GlobalSuspense } from '../../components/GlobalSuspense'
 import { Logo } from './Logo'
 import { Header } from './Header'
-import { Content } from './Content'
+import { SettingProvider } from './SettingProvider'
 
 const engine = new Styletron()
 
@@ -53,7 +53,7 @@ export function InnerSettings() {
 
                 <div className={classes.mlr}>
                     <Header></Header>
-                    <Content></Content>
+                    <SettingProvider></SettingProvider>
                 </div>
             </div>
         </div>

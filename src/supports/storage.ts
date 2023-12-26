@@ -15,6 +15,7 @@ export async function syncProviderSettings(name: string, config: Partial<IConfig
 
 const settingKeys: Record<keyof ISettings, number> = {
     providers: 1,
+    selectedMenu: 1,
 }
 
 export async function getSettings(): Promise<ISettings> {
