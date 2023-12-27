@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss'
+import browser from 'webextension-polyfill'
 
 const useStyles = createUseStyles({
     header: {
@@ -31,6 +32,7 @@ export function PopupHeader() {
             <div
                 className={styles.setting}
                 onClick={() => {
+                    browser.runtime.sendMessage({ type: 'open_options_page' })
                     // TODO: open setting page
                 }}
             >

@@ -7,7 +7,8 @@ import { sleep } from '../../supports/time'
 import { PopupHeader } from './PopupHeader'
 import { PopupForm } from './PopupForm'
 
-export interface IReaderBoxProps extends ILink {}
+export interface IReaderBoxProps extends ILink {
+}
 
 const useStyles = createUseStyles({
     container: {

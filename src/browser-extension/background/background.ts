@@ -31,16 +31,19 @@ browser.contextMenus?.onClicked.addListener(async (info, tab) => {
     browser.tabs.sendMessage(tab.id, transformBrowserTabToLink(tab, info))
 })
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log('background receive message', request, sender, sendResponse)
 
     // todo refactor to use EventDispatcher or something, perhaps we can get more best practice from Laravel
     if (request?.type === 'create-bookmark') {
         findOrCreateBookmark(request.payload as ILink, request.payload.folderID).then((b) => {
-            sendResponse({
-                bookmark: b,
-            })
+            console.log('create bookmark', b)
+            // sendResponse(b)
         })
+    }
+
+    if (request?.type === 'open_options_page') {
+        browser.runtime.openOptionsPage()
     }
 })
 
