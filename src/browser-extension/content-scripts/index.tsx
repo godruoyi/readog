@@ -11,13 +11,14 @@ import { BaseProvider, LightTheme } from 'baseui'
 import { createPopupCardElement, queryPopupCardElement } from '../../supports/popup'
 import { GlobalSuspense } from '../../components/GlobalSuspense'
 import { Popup } from '../../pages/popup/Popup'
-import type { IEvent } from '../../event'
-import { EVENT_OPEN_POPUP, event } from '../../event'
+import { Application } from '../../application'
+import { EVENT_OPEN_POPUP } from '../../events/event'
+import type { ILink } from '../../types'
 
 let root: Root | null = null
 const generateId = createGenerateId()
 
-export async function showPopup(event: IEvent) {
+export async function showPopup(link: ILink) {
     let popup = await queryPopupCardElement()
     if (!popup) {
         popup = await createPopupCardElement()
@@ -44,7 +45,7 @@ export async function showPopup(event: IEvent) {
                 <JSS jss={jss} generateId={generateId} classNamePrefix="__godruoyi-readhub-extension">
                     <StyletronProvider value={engine}>
                         <BaseProvider theme={LightTheme}>
-                            <Popup {...event.payload} />
+                            <Popup {...link} />
                         </BaseProvider>
                     </StyletronProvider>
                 </JSS>
@@ -54,7 +55,12 @@ export async function showPopup(event: IEvent) {
 }
 
 async function main() {
-    event.listen(EVENT_OPEN_POPUP, showPopup)
+    const app = await Application.getInstance()
+
+    app.event?.contentScript.listen(EVENT_OPEN_POPUP, (e) => {
+        const link = e.link as ILink
+        showPopup(link)
+    })
 }
 
 main()

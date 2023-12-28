@@ -1,5 +1,6 @@
 import { createUseStyles } from 'react-jss'
-import { EVENT_OPEN_OPTIONS_PAGE, event } from '../../event'
+import { Application } from '../../application'
+import { EVENT_OPEN_OPTION } from '../../events/event'
 
 const useStyles = createUseStyles({
     header: {
@@ -31,8 +32,9 @@ export function PopupHeader() {
             </div>
             <div
                 className={styles.setting}
-                onClick={() => {
-                    event.fireToBackground({ type: EVENT_OPEN_OPTIONS_PAGE })
+                onClick={async () => {
+                    const app = await Application.getInstance()
+                    app.event?.contentScript.sendEventToBackground(EVENT_OPEN_OPTION)
                 }}
             >
                 <svg

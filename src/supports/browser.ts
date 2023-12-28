@@ -16,9 +16,7 @@ export async function createOrUpdateBookmarkFolder(name: string, folderID?: stri
     if (folderID) {
         try {
             const b = await browser.bookmarks.get(folderID)
-            console.log('find bookmark folder', b)
-
-            if (b.length > 0) {
+            if (b && b.length > 0) {
                 return await updateBookmarkFolder(name, folderID)
             }
         }

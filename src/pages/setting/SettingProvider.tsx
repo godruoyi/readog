@@ -1,9 +1,9 @@
 import { createUseStyles } from 'react-jss'
 import { useEffect, useState } from 'react'
 import { MenuItem } from '../../components/MenuItem'
-import { Logo as TgLogo, Setting as TgProviderSetting } from '../../providers/tg/Setting'
-import { Logo as BearLogo, Setting as BearProviderSetting } from '../../providers/bear/Setting'
-import { Logo as BookmarkLogo, Setting as BookmarkProviderSetting } from '../../providers/bookmark/Setting'
+import { Logo as TgLogo, Setting as TgProviderSetting } from '../../storages/tg/Setting'
+import { Logo as BearLogo, Setting as BearProviderSetting } from '../../storages/bear/Setting'
+import { Logo as BookmarkLogo, Setting as BookmarkProviderSetting } from '../../storages/bookmark/Setting'
 import { getSettings, syncSettings } from '../../supports/storage'
 import { GeneralConfig } from './GeneralConfig'
 

@@ -1,3 +1,5 @@
+import type { Application } from './application'
+
 export interface Tweet {
     id?: string
     author?: string
@@ -13,6 +15,23 @@ export interface ILink {
     // will be set when user use context menu to select text or link
     selectionText?: string
     selectionUrl?: string
+}
+
+export interface IServiceProvider {
+    /**
+     * Boot the provider when all providers are registered.
+     *
+     * @throws Error boot error, such as cannot connect to service, etc.
+     */
+    boot(): Promise<void>
+
+    /**
+     * Register a service provider.
+     *
+     * @param config provider config
+     * @throws Error registration service provider error, such as invalid config, cannot connect to service, etc.
+     */
+    register(app: Application): Promise<void>
 }
 
 export interface IConfig extends Record<string, any> {

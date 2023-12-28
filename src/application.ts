@@ -1,65 +1,115 @@
-import type { IConfig, IProvider, IStorage } from './types'
+import type { IServiceProvider, ISettings } from './types'
 import { getSettings } from './supports/storage'
-import { TgProvider } from './providers/tg/TgProvider'
-import { BookmarkProvider } from './providers/bookmark/BookmarkProvider'
-import { BearProvider } from './providers/bear/BearProvider'
+import type { EventManager } from './events/event'
+import { EventServiceProvider } from './events/event'
 
 class Application {
+    /**
+     * The application settings.
+     *
+     * @private
+     */
+    public settings: ISettings | null = null
+
+    /**
+     * Event manager instance, it will be initialized after application booted.
+     *
+     * @public
+     */
+    public event: EventManager | null = null
+
+    /**
+     * Storage manager instance, it will be initialized after application booted.
+     *
+     * @public
+     */
+    public storage: StorageManager | null = null
+
     /**
      * Indicates if the application has been bootstrapped.
      *
      * @private
      */
-    private booted: boolean = false
+    private static booted: boolean = false
+
+    /**
+     * The application singleton instance.
+     *
+     * @private
+     */
+    private static instance: Application | null = null
 
     /**
      * The bootstrap providers for the application.
      *
      * @private
      */
-    private providers: IProvider[] = [
-        new TgProvider(),
-        new BookmarkProvider(),
-        new BearProvider(),
+    private providers: IServiceProvider[] = [
+        new EventServiceProvider(),
+        // new StorageServiceProvider(),
     ]
-
-    /**
-     * The storage instances for the application.
-     *
-     * @private
-     */
-    private storages: IStorage[] = []
 
     /**
      * Private constructor to enforce singleton.
      *
      * @private
      * @throws {IError} if the application has already been booted
-     * @throws {IError} bootstrapping the providers failed
      * @throws {IError} registering the providers failed
      */
-    public constructor() {
-        this.boot()
-    }
+    private constructor() {}
 
     /**
      * Determine if the application has been booted.
      *
      * @returns {boolean} true if the application has been booted, false otherwise
      */
-    public isBooted(): boolean {
+    public static isBooted(): boolean {
         return this.booted
     }
 
     /**
-     * Get the storage instances for the application.
+     * Get the application singleton instance.
      *
-     * @returns {IStorage[]} the storage instances
+     * @returns {Application} application instance
+     * @throws {IError} if the application has already been booted
+     * @throws {IError} registering the providers failed
+     * @throws {IError} booting the providers failed
+     * @throws {IError} get config from storage failed
      */
-    public async getStorages(): Promise<IStorage[]> {
+    public static async getInstance(): Promise<Application> {
+        if (Application.instance) {
+            return Application.instance
+        }
+
+        return await (new Application()).launch()
+    }
+
+    /**
+     * Launch the application.
+     *
+     * @private
+     */
+    private async launch(): Promise<Application> {
+        console.log('launch application...')
+
+        await this.registerSettingService()
+        await this.registerServiceProviders()
+
         await this.bootstrap()
 
-        return this.storages || []
+        return this
+    }
+
+    /**
+     * Bootstrap the application.
+     *
+     * @private
+     * @throws {IError} bootstrapping the providers failed
+     */
+    private async bootstrap(): Promise<void> {
+        this.boot()
+
+        await this.bootServiceProviders()
     }
 
     /**
@@ -68,82 +118,45 @@ class Application {
      * @private
      */
     private boot(): void {
-        if (this.booted) {
+        if (Application.booted) {
             throw new Error('Application has already been booted.')
         }
 
-        this.booted = true
+        Application.booted = true
+        Application.instance = this
     }
 
     /**
-     * Bootstrap the application.
+     * Load all config from storage
      *
      * @private
-     * @throws {IError} bootstrapping the providers failed
+     */
+    private async registerSettingService() {
+        this.settings = await getSettings()
+    }
+
+    /**
+     * Register the service providers.
+     *
+     * @private
      * @throws {IError} registering the providers failed
      */
-    private async bootstrap(): Promise<void> {
-        const configs = await this.loadEnabledProvidersSettings()
-
-        if (configs === undefined) {
-            return
-        }
-
+    private async registerServiceProviders() {
         for (const provider of this.providers) {
-            const name = this.normalizeProviderName(provider)
-
-            if (!name || !configs[name]) {
-                continue
-            }
-
-            // todo register provider failed should not effect other providers
-            await this.registerProvider(provider, configs[name])
-
-            // same as above
-            await provider.boot()
-
-            this.storages.push(provider.provider())
+            await provider.register(this)
         }
     }
 
     /**
-     * Register the given provider.
+     * Boot the service providers.
      *
-     * @param provider
-     * @param config
-     * @private
-     * @throws {IError} if the provider registration failed
-     */
-    private async registerProvider(provider: IProvider, config: IConfig): Promise<void> {
-        await provider.register(config)
-    }
-
-    /**
-     * Normalize the given provider name, we will use this name to get the provider config
-     * that from the browser storage.
-     *
-     * @param provider
+     * @throws {IError} booting the providers failed
      * @private
      */
-    private normalizeProviderName(provider: IProvider): string {
-        const name = provider.name()
-
-        return name.toLowerCase().trim()
-    }
-
-    /**
-     * Load the providers settings from the browser storage.
-     *
-     * @private
-     */
-    private async loadEnabledProvidersSettings(): Promise<Record<string, IConfig>> {
-        const p = (await getSettings()).providers
-
-        return Object.keys(p)
-            .filter(name => p[name].enable ?? false)
-            .reduce((obj, name) => {
-                return { ...obj, [name]: p[name] }
-            }, {} as Record<string, IConfig>)
+    private async bootServiceProviders() {
+        for (const provider of this.providers) {
+            await provider.boot()
+        }
     }
 }
 

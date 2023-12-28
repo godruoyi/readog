@@ -36,8 +36,6 @@ export function Setting(props: ContentGeneralProps) {
         ;(async () => {
             const settings = await getProviderSettings('tg')
 
-            console.log('get settings', settings)
-
             setEnable(settings.enable ?? false)
             setChannelID(settings.channelID ?? '')
             setToken(settings.token ?? '')

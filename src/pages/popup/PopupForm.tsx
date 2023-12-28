@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import type { IEvent } from '../../event'
-import { EVENT_SAVE_READOG, EVENT_SAVE_STATUS, event } from '../../event'
+import { Application } from '../../application'
+import type { IEvent } from '../../events/event'
+import { EVENT_SAVE_READOG, EVENT_SAVE_STATUS } from '../../events/event'
 import { PopupInput } from './PopupInput'
 import { PopupTextarea } from './PopupTextarea'
 import { PopupFooter } from './PopupFooter'
@@ -34,7 +35,9 @@ export function PopupForm(props: ReaderBoxFormProps) {
 
     const onSava = async () => {
         setLoading(true)
-        event.fireToBackground({
+
+        const app = await Application.getInstance()
+        await app.event?.contentScript.sendEventToBackground(EVENT_SAVE_READOG, {
             type: EVENT_SAVE_READOG,
             payload: {
                 url: link,
@@ -45,16 +48,18 @@ export function PopupForm(props: ReaderBoxFormProps) {
     }
 
     const saved = (event: IEvent) => {
-        console.log('saved', event?.payload?.errors)
         setLoading(false)
+        if (event?.errors?.length > 0) {
+            console.error(event.errors)
+        }
+
         // props.onSubmitted?.()
     }
     useEffect(() => {
-        const clean = event.listen(EVENT_SAVE_STATUS, saved)
-
-        return () => {
-            clean()
-        }
+        ;(async () => {
+            const app = await Application.getInstance()
+            app.event?.contentScript.listen(EVENT_SAVE_STATUS, saved)
+        })()
     }, [])
 
     return (

@@ -68,7 +68,7 @@ export function Popup(props: IReaderBoxProps) {
                 link={props.selectionUrl ?? props.url}
                 selectionText=""
                 onSubmitted={() => {
-                    sleep(2000).then(() => {
+                    sleep(3000).then(() => {
                         setIsOpen(false)
                     })
                 }}

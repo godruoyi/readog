@@ -2,7 +2,21 @@ import browser from 'webextension-polyfill'
 import { fireLinkToDispatcher } from './dispatch'
 import type { ILink } from './types'
 
+class Event {
+    protected listeners: Record<IEventType, IListener[]> = {}
+
+    public fire(event: IEvent, toBackground?: boolean) {
+
+    }
+
+    public register(type: IEventType, listener: IListener) {
+
+    }
+}
+
 type IEventType = string
+
+type IListener = (event: IEvent) => void
 
 interface IEvent {
     type: IEventType
