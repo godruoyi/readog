@@ -6,18 +6,18 @@ import { JssProvider, createGenerateId } from 'react-jss'
 import { create } from 'jss'
 import preset from 'jss-preset-default'
 import { Client as Styletron } from 'styletron-engine-atomic'
-import browser from 'webextension-polyfill'
 import { Provider as StyletronProvider } from 'styletron-react'
 import { BaseProvider, LightTheme } from 'baseui'
 import { createPopupCardElement, queryPopupCardElement } from '../../supports/popup'
 import { GlobalSuspense } from '../../components/GlobalSuspense'
-import type { ILink } from '../../types'
 import { Popup } from '../../pages/popup/Popup'
+import type { IEvent } from '../../event'
+import { EVENT_OPEN_POPUP, event } from '../../event'
 
 let root: Root | null = null
 const generateId = createGenerateId()
 
-export async function showPopup(link: ILink) {
+export async function showPopup(event: IEvent) {
     let popup = await queryPopupCardElement()
     if (!popup) {
         popup = await createPopupCardElement()
@@ -44,7 +44,7 @@ export async function showPopup(link: ILink) {
                 <JSS jss={jss} generateId={generateId} classNamePrefix="__godruoyi-readhub-extension">
                     <StyletronProvider value={engine}>
                         <BaseProvider theme={LightTheme}>
-                            <Popup {...link} />
+                            <Popup {...event.payload} />
                         </BaseProvider>
                     </StyletronProvider>
                 </JSS>
@@ -54,16 +54,7 @@ export async function showPopup(link: ILink) {
 }
 
 async function main() {
-    // if (window.top !== window) {
-    //     console.debug('not top window')
-    //
-    //     return
-    // }
-
-    browser.runtime.onMessage.addListener((link) => {
-        console.info('receive link', link)
-        showPopup(link)
-    })
+    event.listen(EVENT_OPEN_POPUP, showPopup)
 }
 
 main()

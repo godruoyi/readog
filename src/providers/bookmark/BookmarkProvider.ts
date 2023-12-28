@@ -1,5 +1,7 @@
 import browser from 'webextension-polyfill'
 import type { IConfig, IError, ILink, IProvider, IStorage } from '../../types'
+import { createOrUpdateBookmarkFolder } from '../../supports/browser'
+import { syncProviderSettings } from '../../supports/storage'
 
 export class BookmarkProvider implements IProvider {
     private folderID: string | undefined
@@ -9,17 +11,19 @@ export class BookmarkProvider implements IProvider {
     name(): string { return 'bookmark' }
 
     provider(): IStorage {
-        return new BookmarkStorage(<string> this.folderID)
+        return new BookmarkStorage(this.folderID as string)
     }
 
     async register(config: IConfig): Promise<void> {
-        // this script is running in content script, so we cannot use bookmark api to create folder
-        // this folder should be created in Options page that can access the bookmark api
-        if (!config || !config.folderID) {
-            throw new Error('bookmark folder cannot auto create, please try to re-create it in settings')
+        const folder = config?.folder ?? 'Readog'
+        const folderID = config?.folderID
+
+        const f = await createOrUpdateBookmarkFolder(folder, folderID)
+        if (folderID && folderID !== f.id) {
+            await syncProviderSettings(this.name(), { ...config, folderID: f.id })
         }
 
-        this.folderID = config.folderID
+        this.folderID = f.id
     }
 }
 
@@ -27,18 +31,10 @@ class BookmarkStorage implements IStorage {
     constructor(private folderID: string) {}
 
     async store(link: ILink): Promise<IError | void> {
-        return this.sendLinkToBackground(link)
-    }
-
-    async sendLinkToBackground(link: ILink) {
-        const res = await browser.runtime.sendMessage({
-            type: 'create-bookmark',
-            payload: {
-                folderID: this.folderID,
-                ...link,
-            },
+        await browser.bookmarks.create({
+            parentId: this.folderID,
+            title: `${link.title}${link.selectionText ? ` - ${link.selectionText}` : ''}`,
+            url: link.url,
         })
-
-        console.log('create bookmark response', res)
     }
 }

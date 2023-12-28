@@ -1,3 +1,4 @@
+import browser from 'webextension-polyfill'
 import type { IConfig, ILink, IProvider, IStorage } from '../../types'
 
 export class BearProvider implements IProvider {
@@ -25,9 +26,9 @@ class Bear implements IStorage {
     private async storeViaXCallbackUrl(link: ILink): Promise<void> {
         const url = this.prepareCreateXCallbackUrl(link)
 
-        console.log('create bear note via x-callback-url', url)
-
-        location.href = url
+        await browser.tabs.update({
+            url,
+        })
     }
 
     private prepareCreateXCallbackUrl(link: ILink): string {

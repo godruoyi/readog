@@ -1,5 +1,5 @@
 import { createUseStyles } from 'react-jss'
-import browser from 'webextension-polyfill'
+import { EVENT_OPEN_OPTIONS_PAGE, event } from '../../event'
 
 const useStyles = createUseStyles({
     header: {
@@ -32,8 +32,7 @@ export function PopupHeader() {
             <div
                 className={styles.setting}
                 onClick={() => {
-                    browser.runtime.sendMessage({ type: 'open_options_page' })
-                    // TODO: open setting page
+                    event.fireToBackground({ type: EVENT_OPEN_OPTIONS_PAGE })
                 }}
             >
                 <svg

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import type { ILink } from '../../types'
-import { fireLinkToDispatcher } from '../../dispatch'
+import type { IEvent } from '../../event'
+import { EVENT_SAVE_READOG, EVENT_SAVE_STATUS, event } from '../../event'
 import { PopupInput } from './PopupInput'
 import { PopupTextarea } from './PopupTextarea'
 import { PopupFooter } from './PopupFooter'
@@ -33,21 +33,29 @@ export function PopupForm(props: ReaderBoxFormProps) {
     const styles = useStyles()
 
     const onSava = async () => {
-        // todo validate form
         setLoading(true)
-        const errors = await fireLinkToDispatcher({
-            url: link,
-            title,
-            selectionText: remark,
-        } as ILink)
-
-        if (errors && errors.length > 0) {
-            console.error('dispatch errors', errors)
-        }
-
-        setLoading(false)
-        props.onSubmitted?.()
+        event.fireToBackground({
+            type: EVENT_SAVE_READOG,
+            payload: {
+                url: link,
+                title,
+                selectionText: remark,
+            },
+        })
     }
+
+    const saved = (event: IEvent) => {
+        console.log('saved', event?.payload?.errors)
+        setLoading(false)
+        // props.onSubmitted?.()
+    }
+    useEffect(() => {
+        const clean = event.listen(EVENT_SAVE_STATUS, saved)
+
+        return () => {
+            clean()
+        }
+    }, [])
 
     return (
         <div className={styles.container}>

@@ -41,6 +41,8 @@ class DefaultDispatcher implements Dispatcher {
         for (const storage of sortedStorages) {
             const error = await storage.store(link)
 
+            console.log('store link to storage', storage, error)
+
             if (error) {
                 errors.push(error)
             }

@@ -1,18 +1,17 @@
 import { Button } from 'baseui/button'
-import { useEffect, useState } from 'react'
 import { Plus } from 'baseui/icon'
-import { createUseStyles } from 'react-jss'
+import { useEffect, useState } from 'react'
 
-const useStyles = createUseStyles({
-    logo: {
-        width: '15px',
-        height: '15px',
-    },
-})
+// const useStyles = createUseStyles({
+//     logo: {
+//         width: '15px',
+//         height: '15px',
+//     },
+// })
 
 export function PopupFooter(props: { onSubmit: () => void; loading?: boolean }) {
     const [loading, setLoading] = useState(props.loading || false)
-    const styles = useStyles()
+    // const styles = useStyles()
 
     useEffect(() => {
         setLoading(props.loading || false)

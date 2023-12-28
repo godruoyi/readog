@@ -1,4 +1,5 @@
 import type Browser from 'webextension-polyfill'
+import browser from 'webextension-polyfill'
 import type { ILink } from '../types'
 
 export function isSystemLink(link: string) {
@@ -7,15 +8,16 @@ export function isSystemLink(link: string) {
     )
 }
 
-export async function getBrowser(): Promise<typeof Browser> {
-    return (await import('webextension-polyfill')).default
+export function isSystemPage(tab: Browser.Tabs.Tab) {
+    return tab.active && isSystemLink(tab.url as string)
 }
 
 export async function createOrUpdateBookmarkFolder(name: string, folderID?: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
-    const browser = await getBrowser()
     if (folderID) {
         try {
             const b = await browser.bookmarks.get(folderID)
+            console.log('find bookmark folder', b)
+
             if (b.length > 0) {
                 return await updateBookmarkFolder(name, folderID)
             }
@@ -27,16 +29,12 @@ export async function createOrUpdateBookmarkFolder(name: string, folderID?: stri
 }
 
 export async function updateBookmarkFolder(name: string, folderID: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
-    const browser = await getBrowser()
-
     return await browser.bookmarks.update(folderID, {
         title: name,
     })
 }
 
 export async function createBookmarkFolder(name: string): Promise<Browser.Bookmarks.BookmarkTreeNode> {
-    const browser = await getBrowser()
-
     return await browser.bookmarks.create({
         title: name,
         parentId: '1', // top level
