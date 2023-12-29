@@ -23,18 +23,19 @@ export interface IServiceProvider {
      *
      * @throws Error boot error, such as cannot connect to service, etc.
      */
-    boot(): Promise<void>
+    boot(): void
 
     /**
      * Register a service provider.
      *
-     * @param config provider config
+     * @param app
      * @throws Error registration service provider error, such as invalid config, cannot connect to service, etc.
      */
-    register(app: Application): Promise<void>
+    register(app: Application): void
 }
 
 export interface IConfig extends Record<string, any> {
+    enabled: boolean
 }
 
 export interface ISettings {

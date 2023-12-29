@@ -1,17 +1,8 @@
 import { Button } from 'baseui/button'
-import { Plus } from 'baseui/icon'
 import { useEffect, useState } from 'react'
-
-// const useStyles = createUseStyles({
-//     logo: {
-//         width: '15px',
-//         height: '15px',
-//     },
-// })
 
 export function PopupFooter(props: { onSubmit: () => void; loading?: boolean }) {
     const [loading, setLoading] = useState(props.loading || false)
-    // const styles = useStyles()
 
     useEffect(() => {
         setLoading(props.loading || false)
@@ -19,38 +10,18 @@ export function PopupFooter(props: { onSubmit: () => void; loading?: boolean }) 
 
     return (
         <div style={{
-            display: 'flex',
+            display: 'grid',
             marginTop: '22px',
-            marginBottom: '120px',
-            marginLeft: '6px',
+            marginBottom: '10px',
             height: '32px',
-            justifyContent: 'space-between',
         }}
         >
-            <div>
-                <div style={{
-                    height: '32px',
-                    gap: '14px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    color: '#404040',
-                }}
-                >
-                    <select>
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                        <option value="1">4</option>
-                    </select>
-                </div>
-            </div>
             <Button
                 onClick={() => {
                     setLoading(true)
 
                     props.onSubmit()
                 }}
-                startEnhancer={() => <Plus size={24} />}
                 isLoading={loading}
                 overrides={{
                     BaseButton: {

@@ -34,7 +34,7 @@ export function PopupHeader() {
                 className={styles.setting}
                 onClick={async () => {
                     const app = await Application.getInstance()
-                    app.event?.contentScript.sendEventToBackground(EVENT_OPEN_OPTION)
+                    app.event?.sendEventToBackground(EVENT_OPEN_OPTION)
                 }}
             >
                 <svg

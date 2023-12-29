@@ -11,9 +11,9 @@ import { BaseProvider, LightTheme } from 'baseui'
 import { createPopupCardElement, queryPopupCardElement } from '../../supports/popup'
 import { GlobalSuspense } from '../../components/GlobalSuspense'
 import { Popup } from '../../pages/popup/Popup'
-import { Application } from '../../application'
 import { EVENT_OPEN_POPUP } from '../../events/event'
 import type { ILink } from '../../types'
+import { app } from '../../application'
 
 let root: Root | null = null
 const generateId = createGenerateId()
@@ -55,12 +55,9 @@ export async function showPopup(link: ILink) {
 }
 
 async function main() {
-    const app = await Application.getInstance()
-
-    app.event?.contentScript.listen(EVENT_OPEN_POPUP, (e) => {
-        const link = e.link as ILink
-        showPopup(link)
-    })
+    app.event?.listen((e) => {
+        showPopup(e.payload as ILink)
+    }, EVENT_OPEN_POPUP)
 }
 
 main()

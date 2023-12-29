@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { createUseStyles } from 'react-jss'
-import { Application } from '../../application'
+import { app } from '../../application'
 import type { IEvent } from '../../events/event'
 import { EVENT_SAVE_READOG, EVENT_SAVE_STATUS } from '../../events/event'
 import { PopupInput } from './PopupInput'
@@ -35,9 +35,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
 
     const onSava = async () => {
         setLoading(true)
-
-        const app = await Application.getInstance()
-        await app.event?.contentScript.sendEventToBackground(EVENT_SAVE_READOG, {
+        await app.event?.sendEventToBackground(EVENT_SAVE_READOG, {
             type: EVENT_SAVE_READOG,
             payload: {
                 url: link,
@@ -49,17 +47,15 @@ export function PopupForm(props: ReaderBoxFormProps) {
 
     const saved = (event: IEvent) => {
         setLoading(false)
-        if (event?.errors?.length > 0) {
-            console.error(event.errors)
+        if (event?.payload?.errors?.length > 0) {
+            console.error(event?.payload?.errors)
         }
-
-        // props.onSubmitted?.()
     }
     useEffect(() => {
-        ;(async () => {
-            const app = await Application.getInstance()
-            app.event?.contentScript.listen(EVENT_SAVE_STATUS, saved)
-        })()
+        const clean = app.event?.listen(saved, EVENT_SAVE_STATUS)
+        return () => {
+            clean?.()
+        }
     }, [])
 
     return (

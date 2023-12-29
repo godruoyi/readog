@@ -1,7 +1,30 @@
 import browser from 'webextension-polyfill'
 import { isSystemPage, transformBrowserTabToLink } from '../../supports/browser'
-import { EVENT_OPEN_POPUP } from '../../events/event'
-import { Application } from '../../application'
+import {
+    EVENT_OPEN_OPTION,
+    EVENT_OPEN_POPUP,
+    EVENT_SAVED_READOG,
+    EVENT_SAVE_READOG,
+    EVENT_SAVING_READOG,
+} from '../../events/event'
+import { app } from '../../application'
+import { OpenOptionEventListener } from '../../events/open_popup_event'
+import { SaveReadogEvent, SavedEvent, SavingEvent } from '../../events/save_readong_event'
+
+app.event?.registerAll({
+    [EVENT_OPEN_OPTION]: [
+        new OpenOptionEventListener(),
+    ],
+    [EVENT_SAVING_READOG]: [
+        new SavingEvent(),
+    ],
+    [EVENT_SAVED_READOG]: [
+        new SavedEvent(),
+    ],
+    [EVENT_SAVE_READOG]: [
+        new SaveReadogEvent(),
+    ],
+})
 
 browser.contextMenus.create(
     {
@@ -12,19 +35,14 @@ browser.contextMenus.create(
     },
 )
 
-browser.action.onClicked.addListener(async (tab, info) => {
+browser.action.onClicked.addListener(async (tab, _info) => {
     if (isSystemPage(tab)) {
         browser.runtime.openOptionsPage().then(() => {})
 
         return
     }
 
-    Application.getInstance().then((app) => {
-        app.event?.background.sendEventToContentScript(tab.id as number, {
-            type: EVENT_OPEN_POPUP,
-            link: transformBrowserTabToLink(tab),
-        }).then(() => {})
-    })
+    app.event?.sendEventToContentScript(tab.id as number, EVENT_OPEN_POPUP, transformBrowserTabToLink(tab)).then(() => {})
 })
 
 browser.contextMenus?.onClicked.addListener(async (info, tab) => {
@@ -34,15 +52,13 @@ browser.contextMenus?.onClicked.addListener(async (info, tab) => {
 
 browser.runtime.onMessage.addListener((request, sender) => {
     const { tab } = sender
-    const { type } = request
+    const { type, payload } = request
 
-    Application.getInstance().then((app) => {
-        const event = {
-            tabID: tab?.id as number,
-            type,
-            ...request,
-        }
+    const event = {
+        tabID: tab?.id as number,
+        type,
+        payload,
+    }
 
-        app.event?.background.fire(type, event)
-    })
+    app.event?.fire(event)
 })

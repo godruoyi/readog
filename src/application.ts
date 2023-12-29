@@ -1,22 +1,16 @@
-import type { IServiceProvider, ISettings } from './types'
-import { getSettings } from './supports/storage'
-import type { EventManager } from './events/event'
+import type { IServiceProvider } from './types'
 import { EventServiceProvider } from './events/event'
+import type { StorageManager } from './storages/storage'
+import { StorageServiceProvider } from './storages/storage'
+import type { EventDispatcher } from './events/event'
 
 class Application {
-    /**
-     * The application settings.
-     *
-     * @private
-     */
-    public settings: ISettings | null = null
-
     /**
      * Event manager instance, it will be initialized after application booted.
      *
      * @public
      */
-    public event: EventManager | null = null
+    public event: EventDispatcher | null = null
 
     /**
      * Storage manager instance, it will be initialized after application booted.
@@ -46,7 +40,7 @@ class Application {
      */
     private providers: IServiceProvider[] = [
         new EventServiceProvider(),
-        // new StorageServiceProvider(),
+        new StorageServiceProvider(),
     ]
 
     /**
@@ -76,12 +70,12 @@ class Application {
      * @throws {IError} booting the providers failed
      * @throws {IError} get config from storage failed
      */
-    public static async getInstance(): Promise<Application> {
+    public static getInstance(): Application {
         if (Application.instance) {
             return Application.instance
         }
 
-        return await (new Application()).launch()
+        return (new Application()).launch()
     }
 
     /**
@@ -89,13 +83,12 @@ class Application {
      *
      * @private
      */
-    private async launch(): Promise<Application> {
+    private launch(): Application {
         console.log('launch application...')
 
-        await this.registerSettingService()
-        await this.registerServiceProviders()
+        this.registerServiceProviders()
 
-        await this.bootstrap()
+        this.bootstrap()
 
         return this
     }
@@ -106,10 +99,10 @@ class Application {
      * @private
      * @throws {IError} bootstrapping the providers failed
      */
-    private async bootstrap(): Promise<void> {
+    private bootstrap(): void {
         this.boot()
 
-        await this.bootServiceProviders()
+        this.bootServiceProviders()
     }
 
     /**
@@ -127,23 +120,14 @@ class Application {
     }
 
     /**
-     * Load all config from storage
-     *
-     * @private
-     */
-    private async registerSettingService() {
-        this.settings = await getSettings()
-    }
-
-    /**
      * Register the service providers.
      *
      * @private
      * @throws {IError} registering the providers failed
      */
-    private async registerServiceProviders() {
+    private registerServiceProviders() {
         for (const provider of this.providers) {
-            await provider.register(this)
+            provider.register(this)
         }
     }
 
@@ -153,11 +137,13 @@ class Application {
      * @throws {IError} booting the providers failed
      * @private
      */
-    private async bootServiceProviders() {
+    private bootServiceProviders() {
         for (const provider of this.providers) {
-            await provider.boot()
+            provider.boot()
         }
     }
 }
 
-export { Application }
+const app = Application.getInstance()
+
+export { Application, app }

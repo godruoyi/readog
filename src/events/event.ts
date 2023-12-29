@@ -1,15 +1,17 @@
 import browser from 'webextension-polyfill'
 import type { IServiceProvider } from '../types'
 import type { Application } from '../application'
-import { OpenOptionEventListener } from './open_popup_event'
-import { SaveReadogEvent, SavedEvent, SavingEvent } from './save_readong_event'
 
-export interface IEvent extends Record<string, any> {
+export interface IEventPayload extends Record<string, any> {}
+
+export interface IEvent {
     type: IEventType
+    payload?: IEventPayload
+    tabID?: number
 }
 
 export interface IListener {
-    handle(event: IEvent): Promise<void>
+    handle(event: IEvent, app: Application): Promise<void>
 }
 
 export type IEventType = string
@@ -22,55 +24,21 @@ export const EVENT_SAVE_READOG: IEventType = 'save_readog'
 export const EVENT_SAVED_READOG: IEventType = 'saved_readog'
 
 export class EventServiceProvider implements IServiceProvider {
-    private listeners: Record<string, Record<IEventType, IListener[]>> = {
-        background: {
-            [EVENT_OPEN_OPTION]: [
-                new OpenOptionEventListener(),
-            ],
-            [EVENT_SAVING_READOG]: [
-                new SavingEvent(),
-            ],
-            [EVENT_SAVED_READOG]: [
-                new SavedEvent(),
-            ],
-            [EVENT_SAVE_READOG]: [
-                new SaveReadogEvent(),
-            ],
-        },
-    }
-
-    async boot(): Promise<void> {}
+    boot(): void {}
 
     /**
      * Register event manager.
      *
      * @param app
      */
-    async register(app: Application): Promise<void> {
-        const manager = new EventManager()
-
-        for (const [name, listeners] of Object.entries(this.listeners)) {
-            for (const [type, listener] of Object.entries(listeners)) {
-                for (const l of listener) {
-                    const event = name === 'background' ? manager.background : manager.contentScript
-                    event.register(type, l)
-                }
-            }
-        }
-
-        console.log('event manager', manager)
-
-        app.event = manager
+    register(app: Application): void {
+        app.event = new EventDispatcher(app)
     }
 }
 
-export class EventManager {
-    public contentScript = new ContentScriptEventDispatcher()
+export class EventDispatcher {
+    public constructor(protected app: Application) {}
 
-    public background = new BackgroundEventDispatcher()
-}
-
-abstract class EventDispatcher {
     /**
      * All registered listeners.
      *
@@ -93,36 +61,50 @@ abstract class EventDispatcher {
     }
 
     /**
+     * Register listener of all events.
+     *
+     * @param listeners
+     */
+    public registerAll(listeners: Record<IEventType, IListener[]>) {
+        for (const name in listeners) {
+            for (const listener of listeners[name]) {
+                this.register(name, listener)
+            }
+        }
+    }
+
+    /**
      * Fire an event.
      *
-     * @param name
      * @param event
      */
-    public async fire(name: IEventType, event: IEvent) {
-        if (!this.listeners[name]) {
+    public async fire(event: IEvent) {
+        if (!this.listeners[event.type]) {
             return
         }
 
-        for (const listener of this.listeners[name]) {
-            await listener.handle(event)
+        for (const listener of this.listeners[event.type]) {
+            await listener.handle(event, this.app)
         }
     }
-}
 
-class ContentScriptEventDispatcher extends EventDispatcher {
     /**
-     * Listen an event that from the background script.
+     * Listen an event that from the background script or content script.
      *
-     * @param name
      * @param callback
+     * @param name
      * @returns a function that can be used to remove the listener
      */
-    public listen(name: IEventType, callback: (event: IEvent) => void): () => void {
-        console.log('listen...', name)
+    public listen(callback: (event: IEvent) => void, name?: IEventType): () => void {
+        let callbackWrapper = function (event: IEvent) {
+            callback(event)
+        }
 
-        const callbackWrapper = (event: IEvent) => {
-            if (event.type === name) {
-                callback(event)
+        if (name) {
+            callbackWrapper = function (event: IEvent) {
+                if (event.type === name) {
+                    callback(event)
+                }
             }
         }
 
@@ -137,27 +119,26 @@ class ContentScriptEventDispatcher extends EventDispatcher {
      * Send an event to the background script.
      *
      * @param type
-     * @param event
+     * @param payload
      */
-    async sendEventToBackground(type: IEventType, event?: IEvent): Promise<void> {
-        if (!event) {
-            event = { type }
-        }
-
-        return await browser.runtime.sendMessage(event)
+    async sendEventToBackground(type: IEventType, payload?: IEventPayload): Promise<void> {
+        return await browser.runtime.sendMessage({
+            type,
+            payload,
+        })
     }
-}
 
-class BackgroundEventDispatcher extends EventDispatcher {
     /**
      * Send an event to the content script.
      *
      * @param tabID
-     * @param event
+     * @param type
+     * @param payload
      */
-    async sendEventToContentScript(tabID: number, event?: IEvent): Promise<void> {
-        console.log('sending event to content script', event, tabID)
-
-        return await browser.tabs.sendMessage(tabID, event)
+    async sendEventToContentScript(tabID: number, type: IEventType, payload?: IEventPayload): Promise<void> {
+        return await browser.tabs.sendMessage(tabID, {
+            type,
+            payload,
+        })
     }
 }
