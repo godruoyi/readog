@@ -35,7 +35,7 @@ export interface IServiceProvider {
 }
 
 export interface IConfig extends Record<string, any> {
-    enabled: boolean
+    enable: boolean
 }
 
 export interface ISettings {

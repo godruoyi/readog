@@ -9,7 +9,7 @@ import {
 } from '../../events/event'
 import { app } from '../../application'
 import { OpenOptionEventListener } from '../../events/open_popup_event'
-import { SaveReadogEvent, SavedEvent, SavingEvent } from '../../events/save_readong_event'
+import { SaveReadogEvent, SavedEvent, SavingEvent } from '../../events/readong_event'
 
 app.event?.registerAll({
     [EVENT_OPEN_OPTION]: [

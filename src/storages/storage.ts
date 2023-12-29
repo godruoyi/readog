@@ -1,6 +1,8 @@
 import type { IConfig, IError, ILink, IServiceProvider } from '../types'
 import type { Application } from '../application'
-import { BearStorage } from './bear/BearProvider'
+import { BearStorage } from './bear/BearStorage'
+import { TelegramStorage } from './tg/TelegramStorage'
+import { BookmarkStorage } from './bookmark/BookmarkStorage'
 
 export class StorageServiceProvider implements IServiceProvider {
     /**
@@ -10,6 +12,8 @@ export class StorageServiceProvider implements IServiceProvider {
      */
     protected storages: IStorage[] = [
         new BearStorage(),
+        new TelegramStorage(),
+        new BookmarkStorage(),
     ]
 
     boot(): void {}
@@ -73,7 +77,7 @@ export class StorageManager {
 
         for (const storage of await this.getStorages()) {
             const config = await storage.config()
-            if (config.enabled) {
+            if (config.enable) {
                 storages.push(storage)
             }
         }
@@ -115,9 +119,6 @@ class DefaultDispatcher implements StorageDispatcher {
         for (const storage of sortedStorages) {
             const config = await storage.config()
             const error = await storage.store(link, config)
-
-            console.log('store link to storage', storage, error)
-
             if (error) {
                 errors.push(error)
             }

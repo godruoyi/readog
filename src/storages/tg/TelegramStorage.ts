@@ -1,39 +1,24 @@
-import type { IConfig, IError, ILink, IProvider, IStorage } from '../../types'
+import type { IStorage } from '../storage'
+import type { IConfig, IError, ILink } from '../../types'
+import { getProviderSettings } from '../../supports/storage'
 
-export class TgProvider implements IProvider {
-    protected tg: Telegram | null = null
-
-    async boot(): Promise<void> {}
-
-    name(): string { return 'tg' }
-
-    provider(): IStorage {
-        return new TgStorage(<Telegram> this.tg)
+export class TelegramStorage implements IStorage {
+    async config(): Promise<IConfig> {
+        return getProviderSettings('tg')
     }
 
-    async register(config: IConfig): Promise<void> {
+    async store(link: ILink, config: IConfig): Promise<IError | void> {
         if (config.channelID === undefined
             || config.token === undefined
             || config.channelID === ''
             || config.token === '') {
-            throw new Error('invalid telegram channel id or token')
+            return { message: 'invalid telegram channel id or token' } as IError
         }
 
-        this.tg = new Telegram(config.channelID, config.token)
-    }
-}
+        const tg = new Telegram(config.channelID, config.token)
+        const response = await tg.sendMessage(this.convertLinkToMessage(link))
 
-class TgStorage implements IStorage {
-    private readonly tg: Telegram
-
-    constructor(tg: Telegram) {
-        this.tg = tg
-    }
-
-    public async store(link: ILink): Promise<IError | void> {
-        const response = await this.tg.sendMessage(this.convertLinkToMessage(link))
         const data = await response.json()
-
         if (!data.ok) {
             return { message: data.description } as IError
         }

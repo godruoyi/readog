@@ -36,12 +36,9 @@ export function PopupForm(props: ReaderBoxFormProps) {
     const onSava = async () => {
         setLoading(true)
         await app.event?.sendEventToBackground(EVENT_SAVE_READOG, {
-            type: EVENT_SAVE_READOG,
-            payload: {
-                url: link,
-                title,
-                selectionText: remark,
-            },
+            url: link,
+            title,
+            selectionText: remark,
         })
     }
 

@@ -1,5 +1,6 @@
 // import { app } from '../application'
 import type { Application } from '../application'
+import type { ILink } from '../types'
 import type { IEvent, IListener } from './event'
 import { EVENT_SAVE_STATUS } from './event'
 
@@ -17,13 +18,13 @@ export class SavedEvent implements IListener {
 
 export class SaveReadogEvent implements IListener {
     async handle(event: IEvent, app: Application): Promise<void> {
-        console.log('save readog event', event, app)
-        console.log('save success, notify content script')
-        // send event to content script telling it we're saved
+        console.log('save readog event', event)
 
-        // app.storage?.dispatch({} as ILink)
+        await app.storage?.dispatch(event.payload as ILink)
 
         const { tabID } = event
+
+        // notify content script that the link has been saved
         app.event?.sendEventToContentScript(tabID as number, EVENT_SAVE_STATUS, {
             errors: [],
         })
