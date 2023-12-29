@@ -30,7 +30,12 @@ export function GeneralConfig(props: ContentGeneralProps) {
             <h1 className={styles.t0}>General</h1>
             <div>
                 {/* todo more general options can be configured here, for now it's just a placeholder */}
-                <Switch name="TODO"></Switch>
+                <Switch
+                    name="Close Readog when save all links successfully"
+                    description="Enable this woll close Readog when save all links successfully after 2 seconds"
+                    autosave={true}
+                    saveKey="closeWhenSaved"
+                />
                 {/* <Switch name="Provide filling in and saving passwords"></Switch> */}
                 {/* <Switch name="And saving passwords" description="Improve the autofill experience with smarter recommendations while protecting your private key data."></Switch> */}
                 {/* <Switch name="W" description="Improve the autofill experience with smarter recommendations while protecting your private key data."></Switch> */}

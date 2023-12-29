@@ -8,7 +8,7 @@ export async function syncSettings(settings: Partial<ISettings>) {
 
 export async function syncProviderSettings(name: string, config: Partial<IConfig>) {
     const original = await getSettings()
-    original.providers[name] = config
+    original.providers[name] = <IConfig>config
 
     await syncSettings(original)
 }
@@ -16,6 +16,7 @@ export async function syncProviderSettings(name: string, config: Partial<IConfig
 const settingKeys: Record<keyof ISettings, number> = {
     providers: 1,
     selectedMenu: 1,
+    closeWhenSaved: 1,
 }
 
 export async function getSettings(): Promise<ISettings> {

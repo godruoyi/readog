@@ -47,6 +47,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
         if (event?.payload?.errors?.length > 0) {
             console.error(event?.payload?.errors)
         }
+        props.onSubmitted?.()
     }
     useEffect(() => {
         const clean = app.event?.listen(saved, EVENT_SAVE_STATUS)

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import type { ILink } from '../../types'
 import { ExtensionContainerId } from '../../constants'
+import { getSettings } from '../../supports/storage'
 import { sleep } from '../../supports/time'
 import { PopupHeader } from './PopupHeader'
 import { PopupForm } from './PopupForm'
@@ -34,6 +35,7 @@ export function Popup(props: IReaderBoxProps) {
     const styles = useStyles()
     const appTarget = useRef(null)
     const [isOpen, setIsOpen] = useState(true)
+    const [isSubmit, setSubmit] = useState(false)
 
     const keyPress = (e: any) => {
         if (e.keyCode === 27) {
@@ -60,6 +62,19 @@ export function Popup(props: IReaderBoxProps) {
         }
     }, [])
 
+    useEffect(() => {
+        ;(async () => {
+            if (!isSubmit) {
+                return
+            }
+
+            const settings = await getSettings()
+            const x = settings.closeWhenSaved as boolean
+            await sleep(2000)
+            setIsOpen(!x)
+        })()
+    }, [isSubmit])
+
     return (
         <div className={clsx(styles.container, { [styles.open]: isOpen })} ref={appTarget}>
             <PopupHeader />
@@ -67,11 +82,7 @@ export function Popup(props: IReaderBoxProps) {
                 title={props.selectionText ?? props.title}
                 link={props.selectionUrl ?? props.url}
                 selectionText=""
-                onSubmitted={() => {
-                    sleep(3000).then(() => {
-                        setIsOpen(false)
-                    })
-                }}
+                onSubmitted={() => setSubmit(true)}
             />
         </div>
     )

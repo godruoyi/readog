@@ -39,8 +39,8 @@ export interface IConfig extends Record<string, any> {
 }
 
 export interface ISettings {
-    // other general settings
     selectedMenu?: string
+    closeWhenSaved?: boolean
 
     providers: Record<string, IConfig>
 }
