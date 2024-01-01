@@ -4,6 +4,7 @@ import { MenuItem } from '../../components/MenuItem'
 import { Logo as TgLogo, Setting as TgProviderSetting } from '../../storages/tg/Setting'
 import { Logo as BearLogo, Setting as BearProviderSetting } from '../../storages/bear/Setting'
 import { Logo as BookmarkLogo, Setting as BookmarkProviderSetting } from '../../storages/bookmark/Setting'
+import { Logo as ObsidianLogo, Setting as ObsidianProviderSetting } from '../../storages/obsidian/Setting'
 import { getSettings, syncSettings } from '../../supports/storage'
 import { GeneralConfig } from './GeneralConfig'
 
@@ -47,12 +48,14 @@ export function SettingProvider() {
                 <MenuItem title="Telegram" id="tg" logo={TgLogo()} selected={selectedID === 'tg'} onClick={saveSelectedID}></MenuItem>
                 <MenuItem title="Bookmark" id="bookmark" logo={BookmarkLogo()} selected={selectedID === 'bookmark'} onClick={saveSelectedID}></MenuItem>
                 <MenuItem title="Bear" id="bear" logo={BearLogo()} selected={selectedID === 'bear'} onClick={saveSelectedID}></MenuItem>
+                <MenuItem title="Obsidian" id="obsidian" logo={ObsidianLogo()} selected={selectedID === 'obsidian'} onClick={saveSelectedID}></MenuItem>
             </div>
             <div className={styles.content}>
                 <GeneralConfig display={selectedID === 'general'}></GeneralConfig>
                 <TgProviderSetting display={selectedID === 'tg'}></TgProviderSetting>
                 <BookmarkProviderSetting display={selectedID === 'bookmark'}></BookmarkProviderSetting>
                 <BearProviderSetting display={selectedID === 'bear'}></BearProviderSetting>
+                <ObsidianProviderSetting display={selectedID === 'obsidian'}></ObsidianProviderSetting>
             </div>
         </div>
     )
