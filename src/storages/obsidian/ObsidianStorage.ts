@@ -26,7 +26,7 @@ export class ObsidianStorage implements IStorage {
      */
     async createNote(link: ILink, config: IConfig): Promise<IError | void> {
         const vault = config?.vault as string
-        const content = encodeURIComponent(`\n\n${link.selectionText}\n\n${link.url}`)
+        const content = encodeURIComponent(`\n${link.selectionText}\n\n${link.url}`)
         const name = encodeURIComponent(link.title ?? link.selectionText ?? link.url)
 
         const url: string = `obsidian://new?vault=${vault}&content=${content}&name=${name}`
