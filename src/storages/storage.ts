@@ -3,6 +3,7 @@ import type { Application } from '../application'
 import { BearStorage } from './bear/BearStorage'
 import { TelegramStorage } from './tg/TelegramStorage'
 import { BookmarkStorage } from './bookmark/BookmarkStorage'
+import { ObsidianStorage } from './obsidian/ObsidianStorage'
 
 export class StorageServiceProvider implements IServiceProvider {
     /**
@@ -14,6 +15,7 @@ export class StorageServiceProvider implements IServiceProvider {
         new BearStorage(),
         new TelegramStorage(),
         new BookmarkStorage(),
+        new ObsidianStorage(),
     ]
 
     boot(): void {}
