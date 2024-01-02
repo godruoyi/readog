@@ -48,7 +48,7 @@ export function PopupInput(props: PopupInputProps) {
                     }),
                 },
                 Input: {
-                    style: ({ $theme }) => ({
+                    style: ({ _$theme }) => ({
                         'backgroundColor': '#262626',
                         'paddingRight': '4px',
                         'paddingLeft': '4px',

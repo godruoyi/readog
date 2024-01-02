@@ -20,13 +20,13 @@ export class SaveReadogEvent implements IListener {
     async handle(event: IEvent, app: Application): Promise<void> {
         console.log('save readog event', event)
 
-        await app.storage?.dispatch(event.payload as ILink)
+        const errors = await app.storage?.dispatch(event.payload as ILink)
 
         const { tabID } = event
 
         // notify content script that the link has been saved
         app.event?.sendEventToContentScript(tabID as number, EVENT_SAVE_STATUS, {
-            errors: [],
+            errors,
         })
     }
 }

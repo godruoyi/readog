@@ -20,6 +20,11 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
                             fontSize: '11px',
                         }),
                     },
+                    ControlContainer: {
+                        style: ({ _$theme }) => ({
+                            marginBottom: '0',
+                        }),
+                    },
                 }}
             >
                 <Textarea
@@ -38,7 +43,7 @@ export function PopupTextarea(props: { value?: string; onChange: (v: string) => 
                             }),
                         },
                         Input: {
-                            style: ({ $theme }) => ({
+                            style: ({ _$theme }) => ({
                                 backgroundColor: '#404040',
                                 paddingRight: '10px',
                                 paddingLeft: '10px',

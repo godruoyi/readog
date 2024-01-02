@@ -3,6 +3,8 @@ import { createUseStyles } from 'react-jss'
 import { app } from '../../application'
 import type { IEvent } from '../../events/event'
 import { EVENT_SAVE_READOG, EVENT_SAVE_STATUS } from '../../events/event'
+import { sleep } from '../../supports/time'
+import type { IError } from '../../types'
 import { PopupInput } from './PopupInput'
 import { PopupTextarea } from './PopupTextarea'
 import { PopupFooter } from './PopupFooter'
@@ -17,6 +19,7 @@ interface ReaderBoxFormProps {
 const useStyles = createUseStyles({
     container: {
         padding: '5px 20px 0 20px',
+        height: '100%',
     },
     links: {
         border: '1.2px solid #404040',
@@ -31,6 +34,8 @@ export function PopupForm(props: ReaderBoxFormProps) {
     const [title, setTitle] = useState(props.title)
     const [remark, setRemark] = useState(props.selectionText)
     const [loading, setLoading] = useState(false)
+    const [saveFinished, setSaveFinished] = useState(false)
+    const [errors, setErrors] = useState<IError[]>([])
     const styles = useStyles()
 
     const onSava = async () => {
@@ -43,12 +48,17 @@ export function PopupForm(props: ReaderBoxFormProps) {
     }
 
     const saved = (event: IEvent) => {
-        setLoading(false)
-        if (event?.payload?.errors?.length > 0) {
-            console.error(event?.payload?.errors)
-        }
-        props.onSubmitted?.()
+        sleep(1000).then(() => {
+            const errors = event?.payload?.errors?.map((e: any) => {
+                return { message: e?.message ?? '' } as IError
+            }).filter((e: IError) => e && e.message) ?? []
+            setErrors(errors)
+            setLoading(false)
+            setSaveFinished(true)
+            props.onSubmitted?.()
+        })
     }
+
     useEffect(() => {
         const clean = app.event?.listen(saved, EVENT_SAVE_STATUS)
         return () => {
@@ -73,7 +83,7 @@ export function PopupForm(props: ReaderBoxFormProps) {
                 />
             </div>
             <PopupTextarea value={remark} onChange={v => setRemark(v)}></PopupTextarea>
-            <PopupFooter onSubmit={onSava} loading={loading}></PopupFooter>
+            <PopupFooter onSubmit={onSava} loading={loading} errors={errors} finished={saveFinished}></PopupFooter>
         </div>
     )
 }
