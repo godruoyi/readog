@@ -46,8 +46,16 @@ browser.action.onClicked.addListener(async (tab, _info) => {
 })
 
 browser.contextMenus?.onClicked.addListener(async (info, tab) => {
-    console.log('context menu clicked', info, tab)
-    // todo
+    if (!tab) {
+        return
+    }
+
+    if (isSystemPage(tab)) {
+        browser.runtime.openOptionsPage().then(() => {})
+        return
+    }
+
+    app.event?.sendEventToContentScript(tab.id as number, EVENT_OPEN_POPUP, transformBrowserTabToLink(tab, info)).then(() => {})
 })
 
 browser.runtime.onMessage.addListener((request, sender) => {
