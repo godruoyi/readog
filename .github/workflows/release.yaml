@@ -75,7 +75,7 @@ jobs:
       - name: Package plugin
         run: |
           mkdir release
-          mv chromium.zip release/readog-${{ steps.get_version.outputs.version-without-v }}
+          mv chromium.zip release/readog-${{ steps.get_version.outputs.version-without-v }}.zip
 
       - name: Upload extensions to release
         id: upload-release-asset
