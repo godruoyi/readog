@@ -27,14 +27,16 @@ export function Input(props: InputProps) {
             label={() => props.label}
             caption={() => props.caption}
             overrides={
-                props.formControlOverrides ?? {
-                    Label: {
-                        style: ({ _$theme }) => ({
-                            color: '#D1D1D1',
-                            fontSize: '16px',
-                        }),
-                    },
-                }
+                props.formControlOverrides
+                    ? {
+                            Label: {
+                                style: ({ _$theme }) => ({
+                                    color: '#D1D1D1',
+                                    fontSize: '16px',
+                                }),
+                            },
+                        }
+                    : undefined
             }
         >
             <BaseInput
