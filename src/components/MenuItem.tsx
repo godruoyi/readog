@@ -12,7 +12,7 @@ interface IMenuItemProps {
 
 const useStyles = createUseStyles({
     container: (selected: boolean) => ({
-        'width': '240px',
+        'width': '220px',
         'height': '40px',
         'color': '#FFFFFF',
         'display': 'flex',

@@ -13,23 +13,53 @@ export class BearStorage implements IStorage {
     }
 
     private async storeViaXCallbackUrl(link: ILink, config: IConfig): Promise<void> {
-        const url = this.prepareCreateXCallbackUrl(link, config.folder ?? 'Readog')
+        const url = this.prepareXCallbackUrl(link, config)
 
         await browser.tabs.update({
             url,
         })
     }
 
-    private prepareCreateXCallbackUrl(link: ILink, folder: string): string {
-        const title = encodeURIComponent(link.title ?? link.selectionText ?? link.url)
-        const text = encodeURIComponent(`${link.selectionText}\n${link.url}`)
-        const tags = this.parseTagsFromFolder(folder).join(',')
+    private prepareXCallbackUrl(link: ILink, config: IConfig): string {
+        const allInOne = config.allInOne ?? false
 
-        return `bear://x-callback-url/create?title=${title}&text=${text}&tags=${tags}`
+        if (allInOne) {
+            return this.prepareAddTextUrl(link, config)
+        }
+
+        return this.prepareCreateUrl(link, config)
+    }
+
+    private prepareCreateUrl(link: ILink, config: IConfig): string {
+        const folder = config.folder ?? 'Readog'
+        const tags = this.parseTagsFromFolder(folder).join(',')
+        const title = (link.title ?? link.selectionText ?? link.url)
+        const text = (`${link.selectionText}\n${link.url}`)
+
+        const url = new URL('bear://x-callback-url/create')
+        url.searchParams.append('title', title)
+        url.searchParams.append('text', text)
+        url.searchParams.append('tags', tags)
+        url.searchParams.append('show_window', config.showWindow ? 'yes' : 'no')
+        url.searchParams.append('open_note', config.showWindow ? 'yes' : 'no')
+
+        return url.toString()
+    }
+
+    private prepareAddTextUrl(link: ILink, config: IConfig): string {
+        const text = (`${link.selectionText}\n${link.url}`)
+        const url = new URL('bear://x-callback-url/add-text')
+
+        url.searchParams.append('id', config.identifier ?? '')
+        url.searchParams.append('text', text)
+        url.searchParams.append('show_window', config.showWindow ? 'yes' : 'no')
+        url.searchParams.append('open_note', config.showWindow ? 'yes' : 'no')
+
+        return url.toString()
     }
 
     private parseTagsFromFolder(folder: string): string[] {
         // @todo support multiple tags
-        return [encodeURIComponent(folder)]
+        return [(folder)]
     }
 }

@@ -27,7 +27,7 @@ export function Input(props: InputProps) {
             label={() => props.label}
             caption={() => props.caption}
             overrides={
-                props.formControlOverrides
+                !props.formControlOverrides
                     ? {
                             Label: {
                                 style: ({ _$theme }) => ({
@@ -36,7 +36,7 @@ export function Input(props: InputProps) {
                                 }),
                             },
                         }
-                    : undefined
+                    : props.formControlOverrides
             }
         >
             <BaseInput

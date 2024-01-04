@@ -47,8 +47,8 @@ export function SettingProvider() {
                 <MenuItem title="General" id="general" selected={selectedID === 'general'} onClick={saveSelectedID}></MenuItem>
                 <MenuItem title="Telegram" id="tg" logo={TgLogo()} selected={selectedID === 'tg'} onClick={saveSelectedID}></MenuItem>
                 <MenuItem title="Bookmark" id="bookmark" logo={BookmarkLogo()} selected={selectedID === 'bookmark'} onClick={saveSelectedID}></MenuItem>
-                <MenuItem title="Bear" id="bear" logo={BearLogo()} selected={selectedID === 'bear'} onClick={saveSelectedID}></MenuItem>
                 <MenuItem title="Obsidian" id="obsidian" logo={ObsidianLogo()} selected={selectedID === 'obsidian'} onClick={saveSelectedID}></MenuItem>
+                <MenuItem title="Bear" id="bear" logo={BearLogo()} selected={selectedID === 'bear'} onClick={saveSelectedID}></MenuItem>
             </div>
             <div className={styles.content}>
                 <GeneralConfig display={selectedID === 'general'}></GeneralConfig>

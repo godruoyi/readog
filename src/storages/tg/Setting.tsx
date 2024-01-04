@@ -4,8 +4,8 @@ import { Button } from 'baseui/button'
 import { SIZE } from 'baseui/input'
 import { useEffect, useState } from 'react'
 import { Input } from '../../components/Input'
-import { Switch } from '../../components/Switch'
 import { getProviderSettings, syncProviderSettings } from '../../supports/storage'
+import { Checkbox } from '../../components/Checkbox'
 
 const useStyles = createUseStyles({
     container: {
@@ -58,7 +58,7 @@ export function Setting(props: ContentGeneralProps) {
             }}
             >
                 <h1 className={styles.t0}>Telegram</h1>
-                <Switch checked={enable} onChange={setEnable}></Switch>
+                <Checkbox checked={enable} onChange={setEnable} />
             </div>
             <div style={{
                 marginTop: '18px',

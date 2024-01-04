@@ -4,8 +4,9 @@ import { Button } from 'baseui/button'
 import { SIZE } from 'baseui/input'
 import { useEffect, useState } from 'react'
 import { Input } from '../../components/Input'
-import { Switch } from '../../components/Switch'
 import { getProviderSettings, syncProviderSettings } from '../../supports/storage'
+import { FormSwitch } from '../../components/FormSwitch'
+import { Checkbox } from '../../components/Checkbox'
 
 const useStyles = createUseStyles({
     container: {
@@ -29,8 +30,11 @@ interface ContentGeneralProps {
 export function Setting(props: ContentGeneralProps) {
     const styles = useStyles()
     const [folder, setFolder] = useState('#Readog')
+    const [identifier, setIdentifier] = useState('')
     const [enable, setEnable] = useState(false)
     const [loading, setLoading] = useState(false)
+    const [showWindow, setShowWindow] = useState(false)
+    const [allInOne, setAllInOne] = useState(false)
 
     useEffect(() => {
         ;(async () => {
@@ -38,6 +42,9 @@ export function Setting(props: ContentGeneralProps) {
 
             setFolder(settings.folder ?? '')
             setEnable(settings.enable ?? false)
+            setShowWindow(settings.showWindow ?? false)
+            setAllInOne(settings.allInOne ?? false)
+            setIdentifier(settings.identifier ?? '')
         })()
     }, [])
 
@@ -47,6 +54,9 @@ export function Setting(props: ContentGeneralProps) {
         await syncProviderSettings('bear', {
             folder,
             enable,
+            showWindow,
+            allInOne,
+            identifier,
         })
         setLoading(false)
     }
@@ -59,24 +69,54 @@ export function Setting(props: ContentGeneralProps) {
             }}
             >
                 <h1 className={styles.t0}>Bear APP</h1>
-                <Switch checked={enable} onChange={setEnable}></Switch>
+                <Checkbox checked={enable} onChange={setEnable} />
             </div>
             <div style={{
                 marginTop: '18px',
             }}
             >
-                <Input
-                    label="Bear Tags"
-                    caption="The tags will be created in Bear app automatically, each link will be single note in this tag."
-                    placeholder="Which tags do you want to save, default is #Readog Next"
-                    type="input"
-                    value={folder}
-                    onChange={setFolder}
+                <FormSwitch
+                    label="Show Window"
+                    caption="Display the Bear app window when the link is saved (MacOS only)."
+                    checked={showWindow}
+                    onChange={setShowWindow}
                 />
+
+                <FormSwitch
+                    label="All In One"
+                    caption="Save all links in one note."
+                    checked={allInOne}
+                    onChange={setAllInOne}
+                />
+
+                {
+                    allInOne
+                        ? (
+                            <Input
+                                label="Note Identifier"
+                                caption="Please create a note and paste the note identifier here, you can get the note identifier by right-clicking on the note and selecting Copy Note Identifier."
+                                placeholder="Paste the note identifier here"
+                                type="input"
+                                value={identifier}
+                                onChange={setIdentifier}
+                            />
+                            )
+                        : (
+                            <Input
+                                label="Bear Tags"
+                                caption="The tags will be created in Bear app automatically, each link will be single note in this tag."
+                                placeholder="Which tags do you want to save, #Readog Next"
+                                type="input"
+                                value={folder}
+                                onChange={setFolder}
+                            />
+                            )
+                }
 
                 <div style={{
                     display: 'flex',
                     justifyContent: 'flex-end',
+                    marginTop: '30px',
                 }}
                 >
                     <Button

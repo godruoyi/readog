@@ -4,8 +4,8 @@ export function getManifest() {
     const manifest: chrome.runtime.Manifest = {
         manifest_version: 3,
 
-        name: 'AnyLater',
-        description: 'AnyLater is a browser extension that allows you save any page to anywhere.',
+        name: 'Readog',
+        description: 'Readog is a browser extension that can save your links to any platform.',
         version,
 
         icons: {
@@ -18,7 +18,7 @@ export function getManifest() {
 
         action: {
             default_icon: 'icon/32.png',
-            default_title: 'Save to ReadHub',
+            default_title: 'Save via Readog',
         },
 
         options_ui: {

@@ -1,7 +1,7 @@
 import { createUseStyles } from 'react-jss'
 import { useEffect } from 'react'
 import { clsx } from 'clsx'
-import { Switch } from '../../components/Switch'
+import { FormSwitch } from '../../components/FormSwitch'
 
 const useStyles = createUseStyles({
     container: {
@@ -29,16 +29,11 @@ export function GeneralConfig(props: ContentGeneralProps) {
         <div className={clsx(styles.container, { [styles.open]: props.display })}>
             <h1 className={styles.t0}>General</h1>
             <div>
-                {/* todo more general options can be configured here, for now it's just a placeholder */}
-                <Switch
-                    name="Close Readog when save all links successfully"
-                    description="Enable this woll close Readog when save all links successfully after 2 seconds"
-                    autosave={true}
-                    saveKey="closeWhenSaved"
+                <FormSwitch
+                    autosave="closeWhenSaved"
+                    label="Close Window When Saved"
+                    caption="Enable this will close Readog when save all links successfully after 2 seconds"
                 />
-                {/* <Switch name="Provide filling in and saving passwords"></Switch> */}
-                {/* <Switch name="And saving passwords" description="Improve the autofill experience with smarter recommendations while protecting your private key data."></Switch> */}
-                {/* <Switch name="W" description="Improve the autofill experience with smarter recommendations while protecting your private key data."></Switch> */}
             </div>
         </div>
     )
