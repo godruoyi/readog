@@ -28,7 +28,7 @@
     "@antfu/eslint-config": "1.0.0-beta.29",
     "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@types/chrome": "0.0.242",
-    "@types/react": "^18.0.26",
+    "@types/react": "^18.2.47",
     "@types/react-dom": "^18.0.9",
     "@types/webextension-polyfill": "^0.10.0",
     "@vitejs/plugin-react": "^4.0.4",
