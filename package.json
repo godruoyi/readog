@@ -29,7 +29,7 @@
     "@samrum/vite-plugin-web-extension": "^5.0.0",
     "@types/chrome": "0.0.242",
     "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.0.9",
+    "@types/react-dom": "^18.2.18",
     "@types/webextension-polyfill": "^0.10.0",
     "@vitejs/plugin-react": "^4.0.4",
     "element-ready": "^6.2.2",
