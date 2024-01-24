@@ -12,7 +12,7 @@
     "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css,md,json}\" --config ./.prettierrc --cache"
   },
   "dependencies": {
-    "baseui": "^13.0.0",
+    "baseui": "^14.0.0",
     "clsx": "^2.1.0",
     "install": "^0.13.0",
     "jss": "^10.10.0",
