@@ -62,8 +62,8 @@ devDependencies:
     specifier: ^4.0.4
     version: 4.2.0(vite@4.5.1)
   element-ready:
-    specifier: ^6.2.2
-    version: 6.2.2
+    specifier: ^7.0.0
+    version: 7.0.0
   eslint:
     specifier: ^8.52.0
     version: 8.52.0
@@ -2355,8 +2355,8 @@ packages:
     resolution: {integrity: sha512-oIPzksmTg4/MriiaYGO+okXDT7ztn/w3Eptv/+gSIdMdKsJo0u4CfYNFJPy+4SKMuCqGw2wxnA+URMg3t8a/bQ==}
     dev: true
 
-  /deferred-async-iterator@2.1.0:
-    resolution: {integrity: sha512-iVOOOnIAPB+8osU12Jr3ms6rBydjONZAr9Nrd8cQl5DrTWYe2Pe+BiJTZkAqamn4f9Yq+Q7OGzNqdxuVTbsdDg==}
+  /deferred-async-iterator@3.0.0:
+    resolution: {integrity: sha512-VEWY9Cwv4LkWHDl7cAwMDisj0Y3n/D9tAJynuuzxA3s14Wg8z69yACbKWt/dBBfvmUbu6wa6ea3W7E6adRHx1A==}
     engines: {node: '>=12'}
     dependencies:
       p-defer: 4.0.0
@@ -2430,12 +2430,12 @@ packages:
   /electron-to-chromium@1.4.601:
     resolution: {integrity: sha512-SpwUMDWe9tQu8JX5QCO1+p/hChAi9AE9UpoC3rcHVc+gdCGlbT3SGb5I1klgb952HRIyvt9wZhSz9bNBYz9swA==}
 
-  /element-ready@6.2.2:
-    resolution: {integrity: sha512-aERDpVjwsI6uSuOOwEaayPuHK6NAW3IuH11gaaquwIcwGblb9NseughqtB5yqAOsw2C65vApDecfREJZXJ8QGQ==}
-    engines: {node: '>=12'}
+  /element-ready@7.0.0:
+    resolution: {integrity: sha512-PuyQkIQPxgEmHZA3WmiKBhvnbCUybsIUhW3+7WSglmN746IljgVfPVJOq4PYdj5lh2LSnPDe8aSfb/cXK50mbQ==}
+    engines: {node: '>=18'}
     dependencies:
-      deferred-async-iterator: 2.1.0
-      many-keys-map: 1.0.3
+      deferred-async-iterator: 3.0.0
+      many-keys-map: 2.0.1
       p-defer: 4.0.0
       typed-query-selector: 2.11.0
     dev: true
@@ -3970,8 +3970,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /many-keys-map@1.0.3:
-    resolution: {integrity: sha512-Iguobalgc8YO1kbN1U9R/j6u3QFf6bwIh37HKYFgEtUJNJd79INgLwtdiiOgBPoBqZ/ZVc4zziRaVg0EiJ+82g==}
+  /many-keys-map@2.0.1:
+    resolution: {integrity: sha512-DHnZAD4phTbZ+qnJdjoNEVU1NecYoSdbOOoVmTDH46AuxDkEVh3MxTVpXq10GtcTC6mndN9dkv1rNfpjRcLnOw==}
     dev: true
 
   /mdast-util-from-markdown@0.8.5:
