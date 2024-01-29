@@ -30,7 +30,7 @@
     "@types/chrome": "0.0.258",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
-    "@types/webextension-polyfill": "^0.10.0",
+    "@types/webextension-polyfill": "^0.10.7",
     "@vitejs/plugin-react": "^4.0.4",
     "element-ready": "^7.0.0",
     "eslint": "^8.52.0",
