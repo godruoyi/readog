@@ -14,16 +14,21 @@ Currently, it supports Telegram and Bookmark, we are plans for additional more s
 - [x] 🍏 Support Telegram
 - [x] 🐛 Support Bear
 - [x] 🐕‍🦺 Support Obsidian
-- [ ] 🚧 Support RSS
-- [ ] 🚧 Custom message format
 - [ ] 🚧 Support Notion
-- [ ] 🚧 Support Logseq
-- [ ] 🚧 Support Readwise Reader
-- [ ] 🚧 Support Pocket
+- [ ] 🚧 Support Flomo
 
 ## Installation
 
-> we are still working on the extension, it's not ready for production yet, you can install it from source code.
+### Install Manually
+
+1. Download readog-chrome-extension-{version}.zip from [Latest Release](https://github.com/godruoyi/readog/releases)
+2. Unzip it
+3. Open the Extension page of Chrome & Arc browsers
+4. Enable `Developer mode` and click `Load unpacked` button to import Readog
+5. Configure the service provider you want to save data(tg, bookmark, bear, etc.)
+6. Enjoy.
+
+![Chrome Extension](https://github.com/godruoyi/readog/assets/16079222/c1022503-9bb9-4ab3-b31d-37c331238b56)
 
 ### Install from source code
 
